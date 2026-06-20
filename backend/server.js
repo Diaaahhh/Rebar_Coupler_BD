@@ -18,10 +18,9 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-    //   "https://article-frontend.chulkani.com",
-    //   "https://chulkani.com",
-    //   "http://chulkani.com",
-    // "https://www.chulkani.com",
+      "https://frontend.rebarcouplerbd.com",
+      "https://rebarcouplerbd.com",
+    "https://www.rebarcouplerbd.com",
     ],
     credentials: true,
   })

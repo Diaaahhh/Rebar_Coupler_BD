@@ -1,0 +1,116 @@
+@import "tailwindcss";
+:root {
+  /* Brand Colors */
+  --primary: #29849f;
+  --primary-dark: #236f86;
+  --primary-light: #4a97af;
+
+  --accent: #b2bfcc;
+  --accent-hover: #d4d4d4;
+
+  /* Text */
+  --text-light: #ffffff;
+  --text-dark: #2f2f2f;
+
+  /* Background */
+  --bg-light: #ffffff;
+  --bg-gray: #d4d4d4;
+
+  /* Supporting Colors */
+  --muted: #aebab7;
+  --border: #a3a3a3;
+
+  /* Layout */
+  --container-width: 70%;
+
+  /* Effects */
+  --shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08);
+
+  --transition:
+    all 0.3s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.container-custom {
+  width: var(--container-width);
+  margin: 0 auto;
+}
+
+@media (max-width: 1280px) {
+  .container-custom {
+    width: 85%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-custom {
+    width: 92%;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Fade Up */
+.animate-fade-up {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+/* Stagger Delay */
+.delay-1 {
+  animation-delay: 0.1s;
+}
+
+.delay-2 {
+  animation-delay: 0.2s;
+}
+
+.delay-3 {
+  animation-delay: 0.3s;
+}
+
+.delay-4 {
+  animation-delay: 0.4s;
+}
+
+.delay-5 {
+  animation-delay: 0.5s;
+}
+
+.delay-6 {
+  animation-delay: 0.6s;
+}
+
+/* Floating CTA */
+@keyframes floatButton {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: floatButton 3s ease-in-out infinite;
+}
