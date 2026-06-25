@@ -39,6 +39,25 @@ body {
   overflow-x: hidden;
 }
 
+button:not(:disabled),
+[role="button"]:not(:disabled),
+a[href],
+input[type="button"]:not(:disabled),
+input[type="submit"]:not(:disabled),
+input[type="reset"]:not(:disabled),
+.swal2-confirm,
+.swal2-cancel,
+.swal2-deny {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+textarea:disabled,
+select:disabled {
+  cursor: not-allowed;
+}
+
 .container-custom {
   width: var(--container-width);
   margin: 0 auto;
@@ -113,4 +132,106 @@ body {
 
 .animate-float {
   animation: floatButton 3s ease-in-out infinite;
+}
+
+.product-content h2 {
+  margin: 0.75rem 0 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.product-content h1 {
+  margin: 0.75rem 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.product-content h3 {
+  margin: 0.75rem 0 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.product-content p {
+  margin: 0.5rem 0;
+  line-height: 1.8;
+}
+
+.product-content ul,
+.product-content ol {
+  margin: 0.75rem 0 0.75rem 1.25rem;
+}
+
+.product-content ul {
+  list-style: disc;
+}
+
+.product-content ol {
+  list-style: decimal;
+}
+
+.product-content strong {
+  font-weight: 700;
+}
+
+.product-content a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.product-content blockquote {
+  margin: 0.75rem 0;
+  border-left: 4px solid var(--primary);
+  padding-left: 1rem;
+  color: #4b5563;
+}
+
+.product-content code {
+  border-radius: 4px;
+  background: #f3f4f6;
+  padding: 0.125rem 0.3rem;
+  font-size: 0.9em;
+}
+
+.product-content pre {
+  margin: 0.75rem 0;
+  overflow-x: auto;
+  border-radius: 6px;
+  background: #111827;
+  padding: 1rem;
+  color: #f9fafb;
+}
+
+.product-content pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.product-content hr {
+  margin: 1.25rem 0;
+  border: 0;
+  border-top: 1px solid #d1d5db;
+}
+
+.product-content img {
+  margin: 1rem 0;
+  max-width: 100%;
+  border: 1px solid #e5e7eb;
+}
+
+.about-image-float {
+  aspect-ratio: 3 / 2;
+  width: min(48%, 600px);
+  float: left;
+  margin-right: 2rem;
+}
+
+@media (max-width: 900px) {
+  .about-image-float {
+    float: none;
+    width: 100%;
+    margin-right: 0;
+  }
 }

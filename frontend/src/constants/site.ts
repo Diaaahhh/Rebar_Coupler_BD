@@ -7,6 +7,10 @@ export const siteData = {
       href: "/",
     },
     {
+      label: "About Us",
+      href: "/about-us",
+    },
+    {
       label: "Products",
       href: "/products",
     },
@@ -15,8 +19,8 @@ export const siteData = {
       href: "/article",
     },
     {
-      label: "FCD Website",
-      href: "https://fcdgroupbd.com",
+      label: "Video Gallery",
+      href: "/video-gallery",
     },
     {
       label: "Contact",
@@ -25,5 +29,5 @@ export const siteData = {
   ],
    companyName: "Rebar Coupler",
 
-  poweredBy: "Freehold Construction & Development",
+  poweredBy: "IGL Web Ltd.",
 };

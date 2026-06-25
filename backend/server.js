@@ -1,16 +1,21 @@
 import dotenv from "dotenv";
 dotenv.config();
-
 import express from "express";
-
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
 import db from "./db.js";
 
+import authRoutes from "./routes/authRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import videoRoutes from "./routes/videoRoutes.js";
+import aboutRoutes from "./routes/aboutRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
+import siteRoutes from "./routes/siteRoutes.js";
+import articleRoutes from "./routes/articleRoutes.js";
+import userQueryRoutes from "./routes/userQueryRoutes.js";
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: "2mb" }));
 app.use(cookieParser()); 
 app.use("/uploads", express.static("uploads"));
 
@@ -32,6 +37,15 @@ app.use(
 //     methods: ["GET", "POST", "PUT", "DELETE"],
 //   })
 // );
+
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/videos", videoRoutes);
+app.use("/api/about-us", aboutRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/api/site", siteRoutes);
+app.use("/api/article", articleRoutes);
+app.use("/api/user-query", userQueryRoutes);
 
 db.query("SELECT 1")
   .then(() => {

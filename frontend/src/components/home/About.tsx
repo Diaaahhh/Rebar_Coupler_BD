@@ -1,8 +1,16 @@
+"use client";
 import Image from "next/image";
 import { Phone } from "lucide-react";
 import { aboutData } from "@/src/constants/about";
+import { useSiteSettings } from "@/src/hooks/useSiteSettings";
 
 export default function About() {
+  const { settings } =
+    useSiteSettings();
+  
+  const phone =
+    settings?.phone ||
+    aboutData.phone;
   return (
     <section
       className="py-24"
@@ -124,7 +132,7 @@ export default function About() {
             </h3>
 
             <a
-              href={`tel:${aboutData.phone}`}
+              href={`tel:${phone}`}
               className="
                 animate-float
                 inline-flex
@@ -144,7 +152,7 @@ export default function About() {
               }}
             >
               <Phone size={20} />
-              {aboutData.phone}
+              {phone}
             </a>
           </div>
         </div>

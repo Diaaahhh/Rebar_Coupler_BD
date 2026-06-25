@@ -1,8 +1,16 @@
+"use client";
 import Image from "next/image";
 import { Phone } from "lucide-react";
 import { benefitData } from "@/src/constants/benefits";
+import { useSiteSettings } from "@/src/hooks/useSiteSettings";
 
 export default function BenefitSection() {
+  const { settings } =
+  useSiteSettings();
+
+const phone =
+  settings?.phone ||
+  benefitData.phone;
   return (
     <section
       className="py-24"
@@ -160,7 +168,7 @@ export default function BenefitSection() {
           </h3>
 
           <a
-            href={`tel:${benefitData.phone}`}
+            href={`tel:${phone}`}
             className="
   inline-flex
   items-center
@@ -181,7 +189,7 @@ export default function BenefitSection() {
             }}
           >
             <Phone size={18} />
-            {benefitData.phone}
+            {phone}
           </a>
         </div>
       </div>

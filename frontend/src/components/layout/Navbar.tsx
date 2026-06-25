@@ -1,13 +1,46 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Menu, X, Phone } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { API_BASE_URL } from "@/src/constants/api";
 import { siteData } from "@/src/constants/site";
+import DynamicLogo from "@/src/components/layout/DynamicLogo";
+import type { SiteSettings } from "@/src/types/site";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [phone, setPhone] = useState(siteData.phone);
+
+  useEffect(() => {
+    let active = true;
+
+    const loadSettings = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/site/settings`, {
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          return;
+        }
+
+        const data = (await response.json()) as { settings: SiteSettings };
+
+        if (active && data.settings.phone) {
+          setPhone(data.settings.phone);
+        }
+      } catch {
+        // Keep static fallback phone if settings are unavailable.
+      }
+    };
+
+    void loadSettings();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-50">
@@ -39,21 +72,7 @@ export default function Navbar() {
                 duration-300
               "
             >
-              <Image
-                src="/logo.png"
-                alt="Rebar Coupler"
-                width={160}
-                height={50}
-                priority
-                className="
-    h-auto
-    max-h-[100px]
-    w-auto
-    transition-all
-    duration-300
-    group-hover:scale-105
-  "
-              />
+              <DynamicLogo className="h-auto max-h-[100px] w-auto transition-all duration-300 group-hover:scale-105" />
             </Link>
 
             {/* Desktop Navigation */}
@@ -89,7 +108,7 @@ export default function Navbar() {
 
             {/* Phone CTA */}
             <a
-              href={`tel:${siteData.phone}`}
+              href={`tel:${phone}`}
               className="
                 hidden
                 lg:flex
@@ -112,7 +131,7 @@ export default function Navbar() {
               "
             >
               <Phone size={17} />
-              {siteData.phone}
+              {phone}
             </a>
 
             {/* Mobile Button */}
@@ -169,7 +188,7 @@ export default function Navbar() {
                 ))}
 
                 <a
-                  href={`tel:${siteData.phone}`}
+                  href={`tel:${phone}`}
                   className="
                     mt-4
                     flex
@@ -180,7 +199,7 @@ export default function Navbar() {
                   "
                 >
                   <Phone size={16} />
-                  {siteData.phone}
+                  {phone}
                 </a>
               </div>
             </div>

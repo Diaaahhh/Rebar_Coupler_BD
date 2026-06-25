@@ -1,12 +1,14 @@
-import {
-  Building2,
-  Phone,
-  Mail,
-} from "lucide-react";
-
+"use client";
+import {Building2, Phone, Mail} from "lucide-react";
+import { useSiteSettings } from "@/src/hooks/useSiteSettings";
 import { contactData } from "@/src/constants/contact";
 
+
 export default function MapSection() {
+   const { settings } =useSiteSettings();
+  const email =settings?.email|| contactData.email
+  const phone =settings?.phone ||contactData.phone;
+  const address = settings?.office_address||contactData.address
   return (
     <section
       className="py-24"
@@ -97,7 +99,7 @@ export default function MapSection() {
                     color: "var(--text-dark)",
                   }}
                 >
-                  {contactData.address}
+                  {address}
                 </p>
               </div>
             </div>
@@ -135,7 +137,7 @@ export default function MapSection() {
                 </h3>
 
                 <a
-                  href={`tel:${contactData.phone}`}
+                  href={`tel:${phone}`}
                   className="
                     block
                     mt-1
@@ -147,7 +149,7 @@ export default function MapSection() {
                     color: "var(--text-dark)",
                   }}
                 >
-                  {contactData.phone}
+                  {phone}
                 </a>
               </div>
             </div>
@@ -185,7 +187,7 @@ export default function MapSection() {
                 </h3>
 
                 <a
-                  href={`mailto:${contactData.email}`}
+                  href={`mailto:${email}`}
                   className="
                     block
                     mt-1
@@ -197,7 +199,7 @@ export default function MapSection() {
                     color: "var(--text-dark)",
                   }}
                 >
-                  {contactData.email}
+                  {email}
                 </a>
               </div>
             </div>

@@ -32,7 +32,7 @@ export default function Footer() {
             {" | "}
             Powered by{" "}
             <Link
-              href="https://fcdgroupbd.com"
+              href="https://iglweb.com/web/"
               target="_blank"
               className="
                 font-semibold
