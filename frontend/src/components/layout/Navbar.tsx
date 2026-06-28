@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Menu, X, Phone } from "lucide-react";
+import { FaFacebookF, FaYoutube } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { API_BASE_URL } from "@/src/constants/api";
 import { siteData } from "@/src/constants/site";
@@ -104,6 +105,57 @@ export default function Navbar() {
                   {item.label}
                 </Link>
               ))}
+            </div>
+
+            {/* Social Links */}
+            <div className="flex items-center gap-4 pt-2">
+              <a
+                href="https://www.facebook.com/RebarCouplerBangladesh"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
+      w-10
+      h-10
+      rounded-full
+      flex
+      items-center
+      justify-center
+      bg-white/10
+      text-white
+      transition-all
+      duration-300
+    "
+                aria-label="Facebook"
+                style={{
+      background: "var(--secondary)",
+    }}
+              >
+                <FaFacebookF size={18} />
+              </a>
+
+              <a
+                href="https://www.youtube.com/@RebarCouplerBangladesh"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
+      w-10
+      h-10
+      rounded-full
+      flex
+      items-center
+      justify-center
+      bg-white/10
+      text-white
+      transition-all
+      duration-300
+    "
+                aria-label="YouTube"
+                 style={{
+      background: "var(--danger)",
+    }}
+              >
+                <FaYoutube size={20} />
+              </a>
             </div>
 
             {/* Phone CTA */}

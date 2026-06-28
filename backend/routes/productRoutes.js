@@ -107,6 +107,11 @@ async function getProductById(id, req) {
         p.name,
         p.slug,
         p.details_html,
+        p.available_size,
+p.quality_test,
+p.pricing_system,
+p.sample_test_system,
+p.threading_forging,
         p.short_description_html,
         p.query_phone,
         p.seo_title,
@@ -161,6 +166,11 @@ async function getProductBySlug(slug, req) {
         p.name,
         p.slug,
         p.details_html,
+        p.available_size,
+p.quality_test,
+p.pricing_system,
+p.sample_test_system,
+p.threading_forging,
         p.short_description_html,
         p.query_phone,
         p.seo_title,
@@ -281,8 +291,12 @@ router.post("/", requireAdmin, upload.array("images", 5), async (req, res) => {
     const {
       name,
       detailsHtml,
-      shortDescriptionHtml,
-      queryPhone,
+availableSize,
+    qualityTest,
+    pricingSystem,
+    sampleTestSystem,
+    threadingForging,
+    shortDescriptionHtml,      queryPhone,
       seoTitle = "",
       seoDescription = "",
       seoKeywords = "",
@@ -301,7 +315,6 @@ router.post("/", requireAdmin, upload.array("images", 5), async (req, res) => {
     }
 
     await connection.beginTransaction();
-
     const [result] = await connection.query(
       `
         INSERT INTO products
@@ -309,19 +322,29 @@ router.post("/", requireAdmin, upload.array("images", 5), async (req, res) => {
           name,
           slug,
           details_html,
-          short_description_html,
+           available_size,
+    quality_test,
+    pricing_system,
+    sample_test_system,
+    threading_forging,
+    short_description_html,
           query_phone,
           seo_title,
           seo_description,
           seo_keywords,
           seo_tags
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?, ?)
       `,
       [
         name,
         await productSlug(name),
-        detailsHtml,
+        detailsHtml,   
+availableSize,
+    qualityTest,
+    pricingSystem,
+    sampleTestSystem,
+    threadingForging,
         shortDescriptionHtml,
         queryPhone,
         seoTitle,
@@ -373,6 +396,11 @@ router.put("/:id", requireAdmin, upload.array("images", 5), async (req, res) => 
     const {
       name,
       detailsHtml,
+      availableSize,
+    qualityTest,
+    pricingSystem,
+    sampleTestSystem,
+    threadingForging,
       shortDescriptionHtml,
       queryPhone,
       seoTitle = "",
@@ -409,34 +437,46 @@ router.put("/:id", requireAdmin, upload.array("images", 5), async (req, res) => 
     await connection.beginTransaction();
 
     const nextSlug = await productSlug(name, req.params.id);
+console.log(req.body);
 
     await connection.query(
-      `
-        UPDATE products
-        SET name = ?,
-            slug = ?,
-            details_html = ?,
-            short_description_html = ?,
-            query_phone = ?,
-            seo_title = ?,
-            seo_description = ?,
-            seo_keywords = ?,
-            seo_tags = ?
-        WHERE id = ?
-      `,
-      [
-        name,
-        nextSlug,
-        detailsHtml,
-        shortDescriptionHtml,
-        queryPhone,
-        seoTitle,
-        seoDescription,
-        seoKeywords,
-        seoTags,
-        req.params.id,
-      ]
-    );
+  `
+  UPDATE products
+  SET
+      name = ?,
+      slug = ?,
+      details_html = ?,
+      available_size = ?,
+      quality_test = ?,
+      pricing_system = ?,
+      sample_test_system = ?,
+      threading_forging = ?,
+      short_description_html = ?,
+      query_phone = ?,
+      seo_title = ?,
+      seo_description = ?,
+      seo_keywords = ?,
+      seo_tags = ?
+  WHERE id = ?
+  `,
+  [
+    name,
+    nextSlug,
+    detailsHtml,
+    availableSize,
+    qualityTest,
+    pricingSystem,
+    sampleTestSystem,
+    threadingForging,
+    shortDescriptionHtml,
+    queryPhone,
+    seoTitle,
+    seoDescription,
+    seoKeywords,
+    seoTags,
+    req.params.id,
+  ]
+);
 
     if (images.length > 0) {
       await connection.query("DELETE FROM product_images WHERE product_id = ?", [

@@ -88,6 +88,7 @@ function removeUploadedPath(uploadPath) {
 }
 
 async function getSettings(req) {
+  
   const [rows] = await db.query(
     `
       SELECT
@@ -117,7 +118,7 @@ async function getSettings(req) {
     favicon_path: null,
     og_image_path: null,
     phone: "09638-441144",
-    site_title: "Rebar Coupler BD",
+    site_title: "Rebar Coupler Bangladesh",
     seo_title: null,
     seo_description: null,
     seo_keywords: null,
@@ -231,7 +232,7 @@ router.put(
           nextFaviconPath,
           nextOgImagePath,
           fieldValue("phone", existing.phone || "09638-441144"),
-          fieldValue("siteTitle", existing.site_title || "Rebar Coupler BD"),
+          fieldValue("siteTitle", existing.site_title || "Rebar Coupler Bangladesh"),
           fieldValue("seoTitle", existing.seo_title || ""),
           fieldValue("seoDescription", existing.seo_description || ""),
           fieldValue("seoKeywords", existing.seo_keywords || ""),

@@ -146,10 +146,14 @@ export default function AdminVideosPage() {
           <input
             type="text"
             value={title}
+             maxLength={60}
             onChange={(event) => setTitle(event.target.value)}
             required
             className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
           />
+          <p className="mt-1 text-right text-sm text-gray-500">
+  {title.length}/60
+</p>
         </div>
 
         <div>

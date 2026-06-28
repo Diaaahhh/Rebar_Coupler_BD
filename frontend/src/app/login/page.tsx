@@ -46,9 +46,7 @@ export default function LoginPage() {
 
       alert("Welcome");
 
-      router.push(
-        "/admin/dashboard"
-      );
+      window.location.href = "/admin/dashboard";
     } catch (error) {
       console.error(error);
 

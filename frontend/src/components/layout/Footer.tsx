@@ -12,42 +12,77 @@ export default function Footer() {
       }}
     >
       <div className="container-custom">
-        <div className="py-5">
-          <p
-            className="
-              text-center
-              text-sm
-              md:text-base
-              font-medium
-              leading-relaxed
-            "
-            style={{
-              color: "var(--text-light)",
-            }}
-          >
-            Copyright © {new Date().getFullYear()}{" "}
-            <span className="font-semibold">
-              {siteData.companyName}
-            </span>
-            {" | "}
-            Powered by{" "}
-            <Link
-              href="https://iglweb.com/web/"
-              target="_blank"
-              className="
-                font-semibold
-                transition-all
-                duration-300
-                hover:opacity-80
-              "
-              style={{
-                color: "var(--accent-hover)",
-              }}
-            >
-              {siteData.poweredBy}
-            </Link>
-          </p>
-        </div>
+        <div
+        className="border-t py-6 px-4 text-center space-y-3"
+        style={{ borderColor: "#5A6869" }}
+      >
+        {/* Row 1 */}
+        <p className="text-sm">
+  Copyright © {new Date().getFullYear()} All rights reserved by{" "}
+  <a
+    href="https://iglgroup.org"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="font-bold text-white"
+  >
+    IGL Group
+  </a>
+</p>
+
+        {/* Row 2 */}
+        <p className="text-xs text-white">
+  <a
+    href="https://iglweb.com/web/domains-services.php"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-white"
+  >
+    Domain Registration by:
+  </a>{" "}
+  <a
+    href="https://iglweb.com/web/domains-services.php"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-white"
+  >
+    IGL Web Ltd.
+  </a>
+  {" | "}
+  <a
+    href="https://iglweb.com/web/hosting-regular-shared.php"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-white"
+  >
+    Web Hosting by:
+  </a>{" "}
+  <a
+    href="https://iglweb.com/web/hosting-regular-shared.php"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-white"
+  >
+    IGL Web Ltd.
+  </a>
+  {" | "}
+  <a
+    href="https://iglweb.com/web/web-development.php"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-white"
+  >
+    Web Design & Development by:
+  </a>{" "}
+  <a
+    href="https://iglweb.com/web/web-development.php"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-white"
+  >
+    IGL Web Ltd.
+  </a>
+</p>
+      </div>
       </div>
     </footer>
   );

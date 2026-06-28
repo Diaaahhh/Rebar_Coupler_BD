@@ -74,7 +74,7 @@ export default function AdminArticlePage() {
         }
       } catch {
         if (active) {
-          setMessage("Could not load article content.");
+          setMessage("Could not load blog content.");
           setMessageType("error");
         }
       }
@@ -138,16 +138,16 @@ export default function AdminArticlePage() {
 
     const timeout = window.setTimeout(async () => {
       try {
-        setTranslationStatus("Translating Bangla article to English...");
+        setTranslationStatus("Translating Bangla blog to English...");
         const translatedHtml = await translateArticleText(
           contentBnHtml,
           "en",
           "html"
         );
         setContentEnHtml(translatedHtml);
-        setTranslationStatus("English article updated automatically.");
+        setTranslationStatus("English blog updated automatically.");
       } catch {
-        setTranslationStatus("Auto translation failed. Please check the English article manually.");
+        setTranslationStatus("Auto translation failed. Please check the English blog manually.");
       }
     }, 1200);
 
@@ -161,16 +161,16 @@ export default function AdminArticlePage() {
 
     const timeout = window.setTimeout(async () => {
       try {
-        setTranslationStatus("Translating English article to Bangla...");
+        setTranslationStatus("Translating English blog to Bangla...");
         const translatedHtml = await translateArticleText(
           contentEnHtml,
           "bn",
           "html"
         );
         setContentBnHtml(translatedHtml);
-        setTranslationStatus("Bangla article updated automatically.");
+        setTranslationStatus("Bangla blog updated automatically.");
       } catch {
-        setTranslationStatus("Auto translation failed. Please check the Bangla article manually.");
+        setTranslationStatus("Auto translation failed. Please check the Bangla blog manually.");
       }
     }, 1200);
 
@@ -207,7 +207,7 @@ export default function AdminArticlePage() {
       };
 
       if (!response.ok) {
-        const errorMessage = data.message || "Could not update article.";
+        const errorMessage = data.message || "Could not update blog.";
         setMessage(errorMessage);
         setMessageType("error");
         await Swal.fire({
@@ -225,12 +225,12 @@ export default function AdminArticlePage() {
 
       setImage(null);
       setPreviewUrl("");
-      setMessage("Article updated successfully.");
+      setMessage("Blog updated successfully.");
       setMessageType("success");
       await Swal.fire({
         icon: "success",
         title: "Saved",
-        text: "Article content updated successfully.",
+        text: "Blog content updated successfully.",
         confirmButtonColor: "#29849f",
       });
     } catch {
@@ -250,9 +250,9 @@ export default function AdminArticlePage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Article</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Blog</h1>
         <p className="mt-2 text-gray-600">
-          Manage the article image, Bangla content, and English content.
+          Manage the blog image, Bangla content, and English content.
         </p>
         <p className="mt-2 text-sm text-gray-500">
           Type in either Bangla or English first. The other language will be
@@ -284,7 +284,7 @@ export default function AdminArticlePage() {
       >
         <div>
           <label className="mb-2 block font-semibold text-gray-800">
-            Article Image
+            Blog Image
           </label>
           <input
             type="file"
@@ -300,7 +300,7 @@ export default function AdminArticlePage() {
             <div className="mt-4 aspect-[3/2] max-w-xl overflow-hidden rounded-md border border-gray-200 bg-gray-50">
               <img
                 src={previewUrl || article?.image_url || ""}
-                alt="Article preview"
+                alt="Blog preview"
                 className="h-full w-full object-cover"
               />
             </div>
@@ -313,15 +313,20 @@ export default function AdminArticlePage() {
               Bangla Title
             </label>
             <input
-              type="text"
-              value={titleBn}
-              onChange={(event) => {
-                lastEditedField.current = "titleBn";
-                setTitleBn(event.target.value);
-              }}
-              required
-              className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
-            />
+  type="text"
+  value={titleBn}
+  maxLength={60}
+  onChange={(event) => {
+    lastEditedField.current = "titleBn";
+    setTitleBn(event.target.value);
+  }}
+  required
+  className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
+/>
+
+<p className="mt-1 text-right text-sm text-gray-500">
+  {titleBn.length}/60
+</p>
           </div>
 
           <div>
@@ -331,6 +336,7 @@ export default function AdminArticlePage() {
             <input
               type="text"
               value={titleEn}
+               maxLength={60}
               onChange={(event) => {
                 lastEditedField.current = "titleEn";
                 setTitleEn(event.target.value);
@@ -338,12 +344,15 @@ export default function AdminArticlePage() {
               required
               className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
             />
+            <p className="mt-1 text-right text-sm text-gray-500">
+  {titleEn.length}/60
+</p>
           </div>
         </div>
 
         <RichTextEditor
           key={`article-bn-${editorKey}`}
-          label="Bangla Article Details"
+          label="Bangla Blog Details"
           value={contentBnHtml}
           onChange={(value) => {
             lastEditedField.current = "contentBn";
@@ -353,7 +362,7 @@ export default function AdminArticlePage() {
 
         <RichTextEditor
           key={`article-en-${editorKey}`}
-          label="English Article Details"
+          label="English Blog Details"
           value={contentEnHtml}
           onChange={(value) => {
             lastEditedField.current = "contentEn";
@@ -366,7 +375,7 @@ export default function AdminArticlePage() {
           disabled={loading}
           className="rounded bg-[var(--primary)] px-6 py-3 font-semibold text-white disabled:opacity-60"
         >
-          {loading ? "Saving..." : "Save Article"}
+          {loading ? "Saving..." : "Save Blog"}
         </button>
       </form>
     </div>

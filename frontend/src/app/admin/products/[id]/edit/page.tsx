@@ -24,15 +24,15 @@ export default function EditProductPage({ params }: EditProductPageProps) {
   const [detailsHtml, setDetailsHtml] = useState(emptyEditorValue);
   const [shortDescriptionHtml, setShortDescriptionHtml] =
     useState(emptyEditorValue);
-  const [seoTitle, setSeoTitle] = useState("");
-  const [seoDescription, setSeoDescription] = useState("");
-  const [seoKeywords, setSeoKeywords] = useState("");
-  const [seoTags, setSeoTags] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [editorKey, setEditorKey] = useState(0);
-
+const [availableSize, setAvailableSize] = useState("");
+const [qualityTest, setQualityTest] = useState("");
+const [pricingSystem, setPricingSystem] = useState("");
+const [sampleTestSystem, setSampleTestSystem] = useState("");
+const [threadingForging, setThreadingForging] = useState("");
   useEffect(() => {
     let active = true;
 
@@ -60,11 +60,12 @@ export default function EditProductPage({ params }: EditProductPageProps) {
           setShortDescriptionHtml(
             data.product.short_description_html || emptyEditorValue
           );
-          setSeoTitle(data.product.seo_title || "");
-          setSeoDescription(data.product.seo_description || "");
-          setSeoKeywords(data.product.seo_keywords || "");
-          setSeoTags(data.product.seo_tags || "");
           setEditorKey((key) => key + 1);
+          setAvailableSize(data.product.available_size || "");
+setQualityTest(data.product.quality_test || "");
+setPricingSystem(data.product.pricing_system || "");
+setSampleTestSystem(data.product.sample_test_system || "");
+setThreadingForging(data.product.threading_forging || "");
         }
       } catch {
         if (active) {
@@ -99,10 +100,11 @@ export default function EditProductPage({ params }: EditProductPageProps) {
     formData.append("queryPhone", queryPhone);
     formData.append("detailsHtml", detailsHtml);
     formData.append("shortDescriptionHtml", shortDescriptionHtml);
-    formData.append("seoTitle", seoTitle);
-    formData.append("seoDescription", seoDescription);
-    formData.append("seoKeywords", seoKeywords);
-    formData.append("seoTags", seoTags);
+    formData.append("availableSize", availableSize);
+formData.append("qualityTest", qualityTest);
+formData.append("pricingSystem", pricingSystem);
+formData.append("sampleTestSystem", sampleTestSystem);
+formData.append("threadingForging", threadingForging);
     images.forEach((image) => formData.append("images", image));
 
     try {
@@ -252,12 +254,59 @@ export default function EditProductPage({ params }: EditProductPageProps) {
             )}
           </div>
 
-          <RichTextEditor
-            key={`details-${editorKey}`}
-            label="Details of this product"
-            value={detailsHtml}
-            onChange={setDetailsHtml}
-          />
+          <div className="space-y-5 rounded-lg border border-gray-200 bg-gray-50 p-5">
+  <h2 className="text-xl font-bold">Product Specifications</h2>
+
+  <div>
+    <label>Available Size (mm)</label>
+    <input
+      type="text"
+      value={availableSize}
+      onChange={(e) => setAvailableSize(e.target.value)}
+      className="w-full rounded border p-3"
+    />
+  </div>
+
+  <div>
+    <label>Quality Test</label>
+    <textarea
+      rows={3}
+      value={qualityTest}
+      onChange={(e) => setQualityTest(e.target.value)}
+      className="w-full rounded border p-3"
+    />
+  </div>
+
+  <div>
+    <label>Pricing System</label>
+    <textarea
+      rows={3}
+      value={pricingSystem}
+      onChange={(e) => setPricingSystem(e.target.value)}
+      className="w-full rounded border p-3"
+    />
+  </div>
+
+  <div>
+    <label>Sample Test System</label>
+    <textarea
+      rows={3}
+      value={sampleTestSystem}
+      onChange={(e) => setSampleTestSystem(e.target.value)}
+      className="w-full rounded border p-3"
+    />
+  </div>
+
+  <div>
+    <label>Threading & Forging</label>
+    <textarea
+      rows={3}
+      value={threadingForging}
+      onChange={(e) => setThreadingForging(e.target.value)}
+      className="w-full rounded border p-3"
+    />
+  </div>
+</div>
 
           <RichTextEditor
             key={`short-${editorKey}`}
@@ -266,69 +315,7 @@ export default function EditProductPage({ params }: EditProductPageProps) {
             onChange={setShortDescriptionHtml}
           />
 
-          <div className="space-y-5 rounded-lg border border-gray-200 bg-gray-50 p-5">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900">Product SEO</h2>
-              <p className="mt-1 text-sm text-gray-500">
-                Optional. These values are used for search engines and social
-                sharing. The product name stays as the main product title.
-              </p>
-            </div>
-
-            <div>
-              <label className="mb-2 block font-semibold text-gray-800">
-                SEO Title
-              </label>
-              <input
-                type="text"
-                value={seoTitle}
-                onChange={(event) => setSeoTitle(event.target.value)}
-                placeholder="Best keyword-focused title for this product"
-                className="w-full rounded border border-gray-300 bg-white p-3 outline-none focus:border-[var(--primary)]"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block font-semibold text-gray-800">
-                SEO Description
-              </label>
-              <textarea
-                value={seoDescription}
-                onChange={(event) => setSeoDescription(event.target.value)}
-                rows={3}
-                placeholder="Short search result description for this product"
-                className="w-full rounded border border-gray-300 bg-white p-3 outline-none focus:border-[var(--primary)]"
-              />
-            </div>
-
-            <div className="grid gap-5 md:grid-cols-2">
-              <div>
-                <label className="mb-2 block font-semibold text-gray-800">
-                  Keywords
-                </label>
-                <textarea
-                  value={seoKeywords}
-                  onChange={(event) => setSeoKeywords(event.target.value)}
-                  rows={3}
-                  placeholder="standard coupler, rebar coupler"
-                  className="w-full rounded border border-gray-300 bg-white p-3 outline-none focus:border-[var(--primary)]"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block font-semibold text-gray-800">
-                  Related Tags
-                </label>
-                <textarea
-                  value={seoTags}
-                  onChange={(event) => setSeoTags(event.target.value)}
-                  rows={3}
-                  placeholder="#rebar #coupler"
-                  className="w-full rounded border border-gray-300 bg-white p-3 outline-none focus:border-[var(--primary)]"
-                />
-              </div>
-            </div>
-          </div>
+         
 
           <button
             type="submit"

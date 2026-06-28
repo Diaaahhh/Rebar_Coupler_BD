@@ -40,7 +40,7 @@ export default async function ProductsPage() {
             Products
           </p>
           <h1 className="mt-3 text-4xl font-bold text-gray-900">
-            Rebar Coupler Products
+            Rebar Coupler Bangladesh Products
           </h1>
         </div>
 
@@ -65,9 +65,9 @@ export default async function ProductsPage() {
                 </div>
 
                 <div className="p-5">
-                  <h2 className="text-xl font-bold text-gray-900 group-hover:text-[var(--primary)]">
-                    {product.name}
-                  </h2>
+                  <h2 className="overflow-hidden text-center text-xl font-bold whitespace-nowrap text-ellipsis text-gray-900 group-hover:text-[var(--primary)]">
+  {product.name}
+</h2>
                 </div>
               </Link>
             ))}

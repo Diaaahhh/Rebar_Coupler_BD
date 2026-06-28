@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export function generateMetadata() {
   return generateSiteMetadata({
     path: "/article",
-    fallbackTitle: "Article",
+    fallbackTitle: "Blog",
   });
 }
 
@@ -36,12 +36,12 @@ export default async function ArticlePage() {
     <section className="bg-gray-50 py-16">
       <div className="container-custom">
         <p className="mb-6 font-semibold uppercase tracking-[3px] text-[var(--primary)]">
-          Article
+          Blogs
         </p>
 
         {articles.length === 0 ? (
           <div className="border border-gray-200 bg-white p-8 text-center text-gray-600">
-            No articles are available right now.
+            No blogs are available right now.
           </div>
         ) : (
           <div className="space-y-6">

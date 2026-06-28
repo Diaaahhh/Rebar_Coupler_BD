@@ -7,7 +7,7 @@ import type { SiteSettings } from "@/src/types/site";
 
 export default function SeoSettingsForm() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
-  const [siteTitle, setSiteTitle] = useState("Rebar Coupler BD");
+  const [siteTitle, setSiteTitle] = useState("Rebar Coupler Bangladesh");
   const [seoTitle, setSeoTitle] = useState("");
   const [seoDescription, setSeoDescription] = useState("");
   const [seoKeywords, setSeoKeywords] = useState("");
@@ -36,7 +36,7 @@ export default function SeoSettingsForm() {
         }
 
         setSettings(data.settings);
-        setSiteTitle(data.settings.site_title || "Rebar Coupler BD");
+        setSiteTitle(data.settings.site_title || "Rebar Coupler Bangladesh");
         setSeoTitle(data.settings.seo_title || "");
         setSeoDescription(data.settings.seo_description || "");
         setSeoKeywords(data.settings.seo_keywords || "");

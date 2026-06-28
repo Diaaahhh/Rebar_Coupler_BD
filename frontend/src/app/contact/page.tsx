@@ -4,6 +4,7 @@ import { API_BASE_URL } from "@/src/constants/api";
 import ContactForm from "@/src/components/contact/ContactForm";
 import type { ContactSettings } from "@/src/types/contact";
 import { generateSiteMetadata } from "@/src/lib/pageMetadata";
+import {FaFacebookF,FaYoutube,} from "react-icons/fa";
 
 export const dynamic = "force-dynamic";
 
@@ -119,7 +120,7 @@ export default async function ContactPage() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              {whatsappHref && (
+              {/* {whatsappHref && (
                 <a
                   href={whatsappHref}
                   target="_blank"
@@ -128,7 +129,7 @@ export default async function ContactPage() {
                 >
                   <MessageCircle size={20} />
                 </a>
-              )}
+              )} */}
               {settings?.facebook_url && (
                 <a
                   href={settings.facebook_url}
@@ -136,7 +137,10 @@ export default async function ContactPage() {
                   className="flex h-11 w-11 items-center justify-center rounded-full bg-[#1877f2] text-lg font-bold text-white transition hover:-translate-y-1 hover:shadow-lg"
                   aria-label="Facebook"
                 >
-                  f
+                  <FaFacebookF
+  size={24}
+  color="white"
+/>
                 </a>
               )}
               {settings?.youtube_url && (
@@ -146,7 +150,10 @@ export default async function ContactPage() {
                   className="flex h-11 w-11 items-center justify-center rounded-full bg-red-600 text-white transition hover:-translate-y-1 hover:shadow-lg"
                   aria-label="YouTube"
                 >
-                  <Play size={19} fill="currentColor" />
+                  <FaYoutube
+  size={24}
+  color="white"
+/>
                 </a>
               )}
             </div>

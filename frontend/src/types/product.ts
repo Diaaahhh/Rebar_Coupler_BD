@@ -10,6 +10,11 @@ export type Product = {
   id: number;
   name: string;
   slug: string;
+  available_size: string;
+quality_test: string;
+pricing_system: string;
+sample_test_system: string;
+threading_forging: string;
   details_html?: string;
   short_description_html: string;
   query_phone: string;
@@ -21,4 +26,5 @@ export type Product = {
   main_image_url: string | null;
   images?: ProductImage[];
   created_at: string;
+  
 };

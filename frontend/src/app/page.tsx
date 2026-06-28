@@ -8,7 +8,7 @@ import { generateSiteMetadata } from "@/src/lib/pageMetadata";
 export function generateMetadata() {
   return generateSiteMetadata({
     path: "/",
-    fallbackTitle: "Rebar Coupler BD",
+    fallbackTitle: "Rebar Coupler Bangladesh",
   });
 }
 

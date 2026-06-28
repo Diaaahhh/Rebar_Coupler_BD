@@ -21,7 +21,6 @@ const developerMeta =
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
-
   return {
     metadataBase: new URL(siteConfig.siteUrl),
 
@@ -35,9 +34,12 @@ export async function generateMetadata(): Promise<Metadata> {
       siteConfig.defaultDescription,
 
     icons: {
-      icon:
-        settings.favicon_url ||
-        "/favicon.ico",
+      icon: [
+        {
+          url: settings.favicon_url!,
+          type: "image/png",
+        },
+      ],
     },
 
     robots: "ALL",

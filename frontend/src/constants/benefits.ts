@@ -1,5 +1,5 @@
 export const benefitData = {
-  heading: "REBAR COUPLER ব্যবহারের সুবিধা",
+  heading: "Rebar Coupler Bangladesh ব্যবহারের সুবিধা",
 
   subHeading:
     "Couplers are fully compliant with BNBC and international standards while providing a safer and stronger mechanical connection.",

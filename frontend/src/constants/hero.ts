@@ -1,10 +1,10 @@
 export const heroData = {
-  title: "Rebar Coupler",
+  title: "Premium Rebar Coupler",
 
-  subtitle: "রিবার কাপলার",
+  subtitle: "বাংলাদেশের বিশ্বস্ত রিবার কাপলার সমাধান",
 
   description:
-    "কন্সট্রাকশনে শক্তি বাড়ানোর জন্য বিভিন্ন বা যে কোন স্থাপনা তৈরীতে রড ব্যবহার করা হয়। কলাম এবং বিমে রড প্রয়োজনমত সাজাতে রড জোড়া দেয়া ছাড়া উপায় থাকেনা। রিবার কাপলার ব্যবহার করে রড জোড়া দেয়ার উপায়গুলো এর মধ্যে সবচেয়ে উন্নত।",
+    "উচ্চমানের রিবার কাপলার ব্যবহার করে নিরাপদ, শক্তিশালী এবং দীর্ঘস্থায়ী রড সংযোগ নিশ্চিত করুন। আধুনিক নির্মাণ প্রকল্পের জন্য আন্তর্জাতিক মানসম্পন্ন Mechanical Splicing Solution।",
 
   buttonOne: {
     text: "যোগাযোগ করুন",
@@ -12,10 +12,14 @@ export const heroData = {
   },
 
   buttonTwo: {
-    text: "বিস্তারিত জানুন",
+    text: "সব পণ্য দেখুন",
     href: "/products",
   },
 
-  youtubeVideo:
-    "https://www.youtube.com/embed/jx3nuRMzGVA?si=Trw-lMJGsj2FjkpJ",
+  slides: [
+    "/hero/hero1.avif",
+    "/hero/hero2.webp",
+    "/hero/hero3.avif",
+    "/hero/hero4.jpg"
+  ],
 };

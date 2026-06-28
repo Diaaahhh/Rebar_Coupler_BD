@@ -185,7 +185,7 @@ router.post("/send-otp", async (req, res) => {
     */
 
     const smsMessage =
-      `Your OTP for Rebar Coupler BD is ${otp}. ` +
+      `Your OTP for Rebar Coupler Bangladesh is ${otp}. ` +
       `This OTP is valid for 5 minutes.`;
 
     await sendSms(phone, smsMessage);

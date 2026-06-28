@@ -40,7 +40,7 @@ export default async function VideoGalleryPage() {
             Video Gallery
           </p>
           <h1 className="mt-3 text-4xl font-bold text-gray-900">
-            Rebar Coupler Videos
+            Rebar Coupler Bangladesh Videos
           </h1>
         </div>
 

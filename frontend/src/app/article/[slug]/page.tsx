@@ -43,7 +43,6 @@ export async function generateMetadata({
   searchParams: Promise<{ lang?: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const { lang } = await searchParams;
   const [article, siteSettings] = await Promise.all([
     getArticle(slug),
     getSiteSettings(),
@@ -51,20 +50,18 @@ export async function generateMetadata({
 
   if (!article) {
     return {
-      title: "Article Not Found",
+      title: "Blog Not Found",
     };
   }
+  const title = article.title_en;
+  const content = article.content_en_html;
 
-  const isBangla = lang === "bn";
-  const title = isBangla ? article.title_bn : article.title_en;
-  const content = isBangla ? article.content_bn_html : article.content_en_html;
+  const canonical = `${siteConfig.siteUrl}/article/${article.slug}`;
   const description =
     plainText(content).slice(0, 160) ||
     siteSettings.seo_description ||
     siteConfig.defaultDescription;
-  const canonical = `${siteConfig.siteUrl}/article/${article.slug}${
-    isBangla ? "?lang=bn" : "?lang=en"
-  }`;
+
   const image = absoluteSiteUrl(
     article.image_url || siteSettings.og_image_url || siteConfig.defaultOgImage
   );
@@ -99,6 +96,7 @@ export async function generateMetadata({
 
 export default async function ArticleDetailsPage({
   params,
+
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
@@ -129,19 +127,40 @@ export default async function ArticleDetailsPage({
           </div>
         ) : (
           <div className="flex h-[360px] items-center justify-center border border-gray-200 bg-gray-50 text-gray-500">
-            Article image will appear here.
+            Blog image will appear here.
           </div>
         )}
 
         <div className="mx-auto mt-10 max-w-5xl">
-          <h1 className="text-4xl font-extrabold leading-tight text-gray-950">
-            {title}
-          </h1>
+          {/* Bangla */}
+          <section>
+            <h1 className="text-4xl font-extrabold leading-tight text-gray-950">
+              {article.title_bn}
+            </h1>
 
-          <div
-            className="product-content mt-7 text-[17px] leading-8 text-gray-800"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
+            <div
+              className="product-content mt-7 text-[17px] leading-8 text-gray-800"
+              dangerouslySetInnerHTML={{
+                __html: article.content_bn_html,
+              }}
+            />
+          </section>
+
+          <hr className="my-14 border-gray-300" />
+
+          {/* English */}
+          <section>
+            <h2 className="text-3xl font-extrabold text-gray-950">
+              {article.title_en}
+            </h2>
+
+            <div
+              className="product-content mt-7 text-[17px] leading-8 text-gray-800"
+              dangerouslySetInnerHTML={{
+                __html: article.content_en_html,
+              }}
+            />
+          </section>
         </div>
       </div>
     </article>

@@ -9,7 +9,7 @@ import DynamicLogo from "@/src/components/layout/DynamicLogo";
 const singleLinks = [
   { label: "Dashboard", href: "/admin/dashboard" },
   { label: "About Us", href: "/admin/about-us" },
-  { label: "Article", href: "/admin/article" },
+  { label: "Blog", href: "/admin/article" },
   { label: "Video Gallery", href: "/admin/videos" },
 ];
 

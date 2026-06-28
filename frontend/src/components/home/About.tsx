@@ -40,7 +40,7 @@ export default function About() {
           >
             <Image
               src={aboutData.bannerImage}
-              alt="Rebar Coupler Banner"
+              alt="Rebar Coupler Bangladesh Banner"
               width={1200}
               height={400}
               className="

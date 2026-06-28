@@ -44,7 +44,7 @@ export default function DynamicLogo({ className = "" }: DynamicLogoProps) {
   return (
     <img
       src={logoUrl}
-      alt="Rebar Coupler"
+      alt="Rebar Coupler Bangladesh"
       className={className}
     />
   );

@@ -15,7 +15,7 @@ export const siteData = {
       href: "/products",
     },
     {
-      label: "Article",
+      label: "Blog",
       href: "/article",
     },
     {
@@ -27,7 +27,7 @@ export const siteData = {
       href: "/contact",
     },
   ],
-   companyName: "Rebar Coupler",
+   companyName: "Rebar Coupler Bangladesh",
 
   poweredBy: "IGL Web Ltd.",
 };

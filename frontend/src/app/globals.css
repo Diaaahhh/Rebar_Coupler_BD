@@ -1,34 +1,42 @@
 @import "tailwindcss";
 :root {
-  /* Brand Colors */
-  --primary: #29849f;
-  --primary-dark: #236f86;
-  --primary-light: #4a97af;
+  /* Brand Green */
+  --primary: #0b8f22;
+  --primary-dark: #066b18;
+  --primary-light: #2fb34a;
 
-  --accent: #b2bfcc;
-  --accent-hover: #d4d4d4;
+  /* Steel Blue (Secondary Brand Color) */
+  --secondary: #1f6fb2;
+  --secondary-dark: #18588d;
+  --secondary-light: #5c9ed6;
+
+  /* Action Red */
+  --accent: #e31b23;
+  --accent-hover: #c5141b;
 
   /* Text */
   --text-light: #ffffff;
-  --text-dark: #2f2f2f;
+  --text-dark: #1f2937;
 
   /* Background */
   --bg-light: #ffffff;
-  --bg-gray: #d4d4d4;
+  --bg-gray: #f5f7f8;
 
-  /* Supporting Colors */
-  --muted: #aebab7;
-  --border: #a3a3a3;
+  /* Supporting */
+  --border: #d9dde2;
+  --muted: #6b7280;
+
+  /* Status */
+  --success: #1e9b3b;
+  --danger: #d62828;
+  --info: #1f6fb2;
 
   /* Layout */
   --container-width: 70%;
 
   /* Effects */
-  --shadow:
-    0 10px 30px rgba(0, 0, 0, 0.08);
-
-  --transition:
-    all 0.3s ease;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+  --transition: all 0.3s ease;
 }
 
 html {
@@ -233,5 +241,27 @@ select:disabled {
     float: none;
     width: 100%;
     margin-right: 0;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slowZoom {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
   }
 }

@@ -131,13 +131,20 @@ router.post("/login", async (req, res) => {
       }
     );
 
-    res.cookie("admin_token", token, {
+   const isProduction =
+  process.env.NODE_ENV === "production";
+
+res.cookie("admin_token", token, {
   httpOnly: true,
-  secure: true,
-  sameSite: "none",
-  domain: ".rebarcouplerbd.com",
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
+  domain: isProduction
+    ? ".rebarcouplerbd.com"
+    : undefined,
+  path: "/",
   maxAge: 24 * 60 * 60 * 1000,
-});
+}
+);
 
     return res.status(200).json({
       success: true,
@@ -162,11 +169,15 @@ router.post("/login", async (req, res) => {
 POST /api/auth/logout
 */
 router.post("/logout", (req, res) => {
+  
   res.clearCookie("admin_token", {
   httpOnly: true,
-  secure: true,
-  sameSite: "none",
-  domain: ".rebarcouplerbd.com",
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
+  domain: isProduction
+    ? ".rebarcouplerbd.com"
+    : undefined,
+  path: "/",
 });
 
   return res.json({

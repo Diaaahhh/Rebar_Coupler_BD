@@ -139,30 +139,82 @@ export default async function ProductDetailPage({
             <div className="grid gap-0">
               <div className="p-5">
                 <h2 className="mb-3 text-lg font-bold text-gray-900">
-                  Details of this product
-                </h2>
-                <div
-                  className="product-content text-gray-700"
-                  dangerouslySetInnerHTML={{
-                    __html: product.details_html || "",
-                  }}
-                />
-                <div className="mt-5 border-t border-gray-200 pt-4">
-  <p className="font-bold text-gray-900">
-    Any query?{" "}
-    <ProductQueryModal
-      productId={product.id}
-      productName={product.name}
-    />
-    {" "}or{" "}
-    <a
-      href={`tel:${product.query_phone}`}
-      className="text-red-600"
-    >
-      {product.query_phone}
-    </a>
-  </p>
+  Product Specifications
+</h2>
+
+<div className="overflow-hidden rounded border border-gray-200">
+  <table className="w-full border-collapse">
+    <tbody>
+
+      <tr>
+        <td className="border p-4 font-semibold">
+          Available Size (mm)
+        </td>
+
+        <td className="border p-4">
+          {product.available_size}
+        </td>
+      </tr>
+
+      <tr>
+        <td className="border p-4 font-semibold">
+          Quality Test
+        </td>
+
+        <td className="border p-4">
+          {product.quality_test}
+        </td>
+      </tr>
+
+      <tr>
+        <td className="border p-4 font-semibold">
+          Pricing System
+        </td>
+
+        <td className="border p-4">
+          {product.pricing_system}
+        </td>
+      </tr>
+
+      <tr>
+        <td className="border p-4 font-semibold">
+          Sample Test System
+        </td>
+
+        <td className="border p-4">
+          {product.sample_test_system}
+        </td>
+      </tr>
+
+      <tr>
+        <td className="border p-4 font-semibold">
+          Threading & Forging
+        </td>
+
+        <td className="border p-4">
+          {product.threading_forging}
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
 </div>
+                <div className="mt-5 border-t border-gray-200 pt-4">
+                  <p className="font-bold text-gray-900">
+                    Any query?{" "}
+                    <ProductQueryModal
+                      productId={product.id}
+                      productName={product.name}
+                    />{" "}
+                    or{" "}
+                    <a
+                      href={`tel:${product.query_phone}`}
+                      className="text-red-600"
+                    >
+                      {product.query_phone}
+                    </a>
+                  </p>
+                </div>
               </div>
             </div>
           </div>

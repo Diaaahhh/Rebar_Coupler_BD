@@ -1,26 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function proxy(request: NextRequest) {
+export function proxy
+(request: NextRequest) {
   const token = request.cookies.get("admin_token");
 
-  const isLoginPage =
-    request.nextUrl.pathname === "/admin/login";
+  const pathname = request.nextUrl.pathname;
 
-  const isAdminRoute =
-    request.nextUrl.pathname.startsWith("/admin");
+  const isLoginPage = pathname === "/login";
+  const isAdminRoute = pathname.startsWith("/admin");
 
   if (!isAdminRoute) {
     return NextResponse.next();
   }
 
-  // Not logged in
-  if (!token && !isLoginPage) {
+  if (!token && pathname !== "/login") {
     return NextResponse.redirect(
       new URL("/login", request.url)
     );
   }
 
-  // Logged in
   if (token && isLoginPage) {
     return NextResponse.redirect(
       new URL("/admin/dashboard", request.url)

@@ -1,5 +1,6 @@
 "use client";
-import {Building2, Phone, Mail} from "lucide-react";
+import {Building2,Phone, Mail,} from "lucide-react";
+import {FaFacebookF,FaYoutube,} from "react-icons/fa";
 import { useSiteSettings } from "@/src/hooks/useSiteSettings";
 import { contactData } from "@/src/constants/contact";
 
@@ -19,22 +20,23 @@ export default function MapSection() {
     >
       <div className="container-custom">
         <div
-          className="
-            grid
-            lg:grid-cols-2
-            gap-10
-            items-center
-          "
-        >
+  className="
+    grid
+    lg:grid-cols-2
+    gap-10
+    items-stretch
+  "
+>
           {/* Contact Card */}
           <div
-            className="
-              animate-fade-up
-              rounded-3xl
-              p-8
-              md:p-10
-              shadow-2xl
-            "
+  className="
+    animate-fade-up
+    rounded-3xl
+    p-8
+    md:p-10
+    shadow-2xl
+    h-full
+  "
             style={{
               background: "var(--bg-light)",
             }}
@@ -203,28 +205,28 @@ export default function MapSection() {
                 </a>
               </div>
             </div>
+            
           </div>
 
           {/* Google Map */}
           <div
-            className="
-              animate-fade-up
-              rounded-3xl
-              overflow-hidden
-              shadow-2xl
-              min-h-[500px]
-            "
-          >
-            <iframe
-              src={contactData.mapEmbedUrl}
-              width="100%"
-              height="500"
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-              className="border-0"
-            />
-          </div>
+  className="
+    animate-fade-up
+    rounded-3xl
+    overflow-hidden
+    shadow-2xl
+    h-full
+    min-h-[500px]
+  "
+>
+  <iframe
+    src={contactData.mapEmbedUrl}
+    loading="lazy"
+    allowFullScreen
+    referrerPolicy="no-referrer-when-downgrade"
+    className="w-full h-full border-0"
+  />
+</div>
         </div>
       </div>
     </section>
