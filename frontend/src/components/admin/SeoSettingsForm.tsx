@@ -10,8 +10,13 @@ export default function SeoSettingsForm() {
   const [siteTitle, setSiteTitle] = useState("Rebar Coupler Bangladesh");
   const [seoTitle, setSeoTitle] = useState("");
   const [seoDescription, setSeoDescription] = useState("");
-  const [seoKeywords, setSeoKeywords] = useState("");
-  const [seoTags, setSeoTags] = useState("");
+  const [seoKeywords, setSeoKeywords] = useState<string[]>([]);
+  const [seoTags, setSeoTags] = useState<string[]>([]);
+
+  const [keywordInput, setKeywordInput] = useState("");
+  const [tagInput, setTagInput] = useState("");
+
+  const MAX_ITEMS = 10;
   const [googleSiteVerification, setGoogleSiteVerification] = useState("");
   const [pinterestDomainVerify, setPinterestDomainVerify] = useState("");
   const [fbAppId, setFbAppId] = useState("");
@@ -39,8 +44,23 @@ export default function SeoSettingsForm() {
         setSiteTitle(data.settings.site_title || "Rebar Coupler Bangladesh");
         setSeoTitle(data.settings.seo_title || "");
         setSeoDescription(data.settings.seo_description || "");
-        setSeoKeywords(data.settings.seo_keywords || "");
-        setSeoTags(data.settings.seo_tags || "");
+        setSeoKeywords(
+          data.settings.seo_keywords
+            ? data.settings.seo_keywords
+                .split(",")
+                .map((item) => item.trim())
+                .filter(Boolean)
+            : [],
+        );
+
+        setSeoTags(
+          data.settings.seo_tags
+            ? data.settings.seo_tags
+                .split(",")
+                .map((item) => item.trim())
+                .filter(Boolean)
+            : [],
+        );
         setGoogleSiteVerification(data.settings.google_site_verification || "");
         setPinterestDomainVerify(data.settings.pinterest_domain_verify || "");
         setFbAppId(data.settings.fb_app_id || "");
@@ -82,8 +102,8 @@ export default function SeoSettingsForm() {
       formData.append("siteTitle", siteTitle.trim());
       formData.append("seoTitle", seoTitle.trim());
       formData.append("seoDescription", seoDescription.trim());
-      formData.append("seoKeywords", seoKeywords.trim());
-      formData.append("seoTags", seoTags.trim());
+      formData.append("seoKeywords", seoKeywords.join(", "));
+      formData.append("seoTags", seoTags.join(", "));
       formData.append("googleSiteVerification", googleSiteVerification.trim());
       formData.append("pinterestDomainVerify", pinterestDomainVerify.trim());
       formData.append("fbAppId", fbAppId.trim());
@@ -140,6 +160,28 @@ export default function SeoSettingsForm() {
     }
   };
 
+  const addItem = (
+    value: string,
+    list: string[],
+    setList: React.Dispatch<React.SetStateAction<string[]>>,
+    clearInput: () => void,
+  ) => {
+    const item = value.trim().replace(/,$/, "");
+
+    if (!item) return;
+
+    if (list.some((x) => x.toLowerCase() === item.toLowerCase())) {
+      clearInput();
+      return;
+    }
+
+    if (list.length >= MAX_ITEMS) {
+      return;
+    }
+
+    setList([...list, item]);
+    clearInput();
+  };
   return (
     <div className="space-y-6">
       {message && (
@@ -210,31 +252,105 @@ export default function SeoSettingsForm() {
         </div>
 
         <div className="grid gap-5 md:grid-cols-2">
+          {/* tags */}
           <div>
             <label className="mb-2 block font-semibold text-gray-800">
               Keywords
             </label>
-            <textarea
-              value={seoKeywords}
-              onChange={(event) => setSeoKeywords(event.target.value)}
-              rows={3}
-              placeholder="rebar coupler, mechanical splice, construction"
-              className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
-            />
+            <div className="rounded border border-gray-300 p-3">
+              <div className="mb-2 flex flex-wrap gap-2">
+                {seoKeywords.map((keyword) => (
+                  <span
+                    key={keyword}
+                    className="flex items-center gap-2 rounded-full bg-[var(--primary)] px-3 py-1 text-sm text-white"
+                  >
+                    {keyword}
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSeoKeywords(
+                          seoKeywords.filter((item) => item !== keyword),
+                        )
+                      }
+                      className="font-bold hover:text-red-200"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+
+              <input
+                type="text"
+                value={keywordInput}
+                placeholder="Type keyword then press comma"
+                onChange={(e) => setKeywordInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "," || e.key === "Enter") {
+                    e.preventDefault();
+
+                    addItem(keywordInput, seoKeywords, setSeoKeywords, () =>
+                      setKeywordInput(""),
+                    );
+                  }
+                }}
+                className="w-full outline-none"
+              />
+            </div>
+
+            <p className="mt-2 text-xs text-gray-500">
+              {seoKeywords.length}/10 keywords
+            </p>
           </div>
 
+          {/* keywords */}
           <div>
             <label className="mb-2 block font-semibold text-gray-800">
               Related Tags
             </label>
-            <textarea
-              value={seoTags}
-              onChange={(event) => setSeoTags(event.target.value)}
-              rows={3}
-              placeholder="#rebar #coupler #construction"
-              className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
-            />
+            <div className="rounded border border-gray-300 p-3">
+              <div className="mb-2 flex flex-wrap gap-2">
+                {seoTags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="flex items-center gap-2 rounded-full bg-gray-200 px-3 py-1 text-sm"
+                  >
+                    {tag}
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSeoTags(seoTags.filter((item) => item !== tag))
+                      }
+                      className="font-bold hover:text-red-600"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+
+              <input
+                type="text"
+                value={tagInput}
+                placeholder="Type tag then press comma"
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "," || e.key === "Enter") {
+                    e.preventDefault();
+
+                    addItem(tagInput, seoTags, setSeoTags, () =>
+                      setTagInput(""),
+                    );
+                  }
+                }}
+                className="w-full outline-none"
+              />
+            </div>
           </div>
+
+          <p className="mt-2 text-xs text-gray-500">{seoTags.length}/10 tags</p>
         </div>
 
         <div className="grid gap-5 md:grid-cols-3">

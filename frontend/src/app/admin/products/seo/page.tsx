@@ -21,11 +21,17 @@ export default function ProductSeoPage() {
   const [selectedId, setSelectedId] = useState<number | "">("");
   const [seoTitle, setSeoTitle] = useState("");
   const [seoDescription, setSeoDescription] = useState("");
-  const [seoKeywords, setSeoKeywords] = useState("");
-  const [seoTags, setSeoTags] = useState("");
+  const [seoKeywords, setSeoKeywords] = useState<string[]>([]);
+  const [seoTags, setSeoTags] = useState<string[]>([]);
+
+  const [keywordInput, setKeywordInput] = useState("");
+  const [tagInput, setTagInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [fetchingProduct, setFetchingProduct] = useState(false);
-  const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
+  const [message, setMessage] = useState<{
+    text: string;
+    type: "success" | "error";
+  } | null>(null);
 
   // Load product list on mount
   useEffect(() => {
@@ -50,26 +56,46 @@ export default function ProductSeoPage() {
   // Load existing SEO data when a product is selected
   useEffect(() => {
     if (selectedId === "") {
-      setSeoTitle("");
-      setSeoDescription("");
-      setSeoKeywords("");
-      setSeoTags("");
-      return;
-    }
+  setSeoTitle("");
+  setSeoDescription("");
+  setSeoKeywords([]);
+  setSeoTags([]);
+  setKeywordInput("");
+  setTagInput("");
+  return;
+}
 
     const loadSeo = async () => {
       setFetchingProduct(true);
       setMessage(null);
       try {
-        const response = await fetch(`${API_BASE_URL}/api/products/${selectedId}`, {
-          cache: "no-store",
-        });
+        const response = await fetch(
+          `${API_BASE_URL}/api/products/${selectedId}`,
+          {
+            cache: "no-store",
+          },
+        );
         if (!response.ok) return;
         const data = (await response.json()) as { product: SeoData };
         setSeoTitle(data.product.seo_title ?? "");
         setSeoDescription(data.product.seo_description ?? "");
-        setSeoKeywords(data.product.seo_keywords ?? "");
-        setSeoTags(data.product.seo_tags ?? "");
+        setSeoKeywords(
+  typeof data.product.seo_keywords === "string"
+    ? data.product.seo_keywords
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean)
+    : []
+);
+
+        setSeoTags(
+  typeof data.product.seo_tags === "string"
+    ? data.product.seo_tags
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean)
+    : []
+);
       } catch {
         setMessage({ text: "Could not load product SEO data.", type: "error" });
       } finally {
@@ -88,22 +114,28 @@ export default function ProductSeoPage() {
     setMessage(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/products/${selectedId}/seo`, {
-        method: "PATCH",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          seoTitle,
-          seoDescription,
-          seoKeywords,
-          seoTags,
-        }),
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/api/products/${selectedId}/seo`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            seoTitle,
+            seoDescription,
+            seoKeywords: seoKeywords.join(", "),
+            seoTags: seoTags.join(", "),
+          }),
+        },
+      );
 
       const data = (await response.json()) as { message?: string };
 
       if (!response.ok) {
-        setMessage({ text: data.message ?? "Could not update SEO data.", type: "error" });
+        setMessage({
+          text: data.message ?? "Could not update SEO data.",
+          type: "error",
+        });
         return;
       }
 
@@ -115,6 +147,30 @@ export default function ProductSeoPage() {
     }
   };
 
+  const MAX_ITEMS = 10;
+
+  const addItem = (
+    value: string,
+    list: string[],
+    setList: React.Dispatch<React.SetStateAction<string[]>>,
+    clearInput: () => void,
+  ) => {
+    const item = value.trim().replace(/,$/, "");
+
+    if (!item) return;
+
+    if (list.includes(item)) {
+      clearInput();
+      return;
+    }
+
+    if (list.length >= MAX_ITEMS) {
+      return;
+    }
+
+    setList([...list, item]);
+    clearInput();
+  };
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -223,51 +279,99 @@ export default function ProductSeoPage() {
                     className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary)]/20 transition resize-y"
                   />
                   <p className="mt-1 text-xs text-gray-400">
-                    Recommended: 150–160 characters. Currently: {seoDescription.length}
+                    Recommended: 150–160 characters. Currently:{" "}
+                    {seoDescription.length}
                   </p>
                 </div>
 
                 {/* SEO Keywords */}
-                <div>
-                  <label
-                    htmlFor="seo-keywords"
-                    className="mb-2 block font-semibold text-gray-800"
-                  >
-                    SEO Keywords
-                  </label>
-                  <textarea
-                    id="seo-keywords"
-                    rows={2}
-                    value={seoKeywords}
-                    onChange={(e) => setSeoKeywords(e.target.value)}
-                    placeholder="rebar coupler, mechanical coupler, steel coupler, BD"
-                    className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary)]/20 transition resize-y"
+                <div className="rounded border border-gray-300 p-3">
+                  <div className="mb-2 flex flex-wrap gap-2">
+                    {seoKeywords.map((keyword) => (
+                      <span
+                        key={keyword}
+                        className="flex items-center gap-2 rounded-full bg-[var(--primary)] px-3 py-1 text-sm text-white"
+                      >
+                        {keyword}
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setSeoKeywords(
+                              seoKeywords.filter((item) => item !== keyword),
+                            )
+                          }
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+
+                  <input
+                    type="text"
+                    value={keywordInput}
+                    placeholder="Type keyword and press comma"
+                    onChange={(e) => setKeywordInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "," || e.key === "Enter") {
+                        e.preventDefault();
+
+                        addItem(keywordInput, seoKeywords, setSeoKeywords, () =>
+                          setKeywordInput(""),
+                        );
+                      }
+                    }}
+                    className="w-full outline-none"
                   />
-                  <p className="mt-1 text-xs text-gray-400">
-                    Comma-separated keywords relevant to this product.
-                  </p>
                 </div>
 
+                <p className="mt-2 text-xs text-gray-400">
+                  {seoKeywords.length}/10 keywords
+                </p>
+
                 {/* SEO Tags */}
-                <div>
-                  <label
-                    htmlFor="seo-tags"
-                    className="mb-2 block font-semibold text-gray-800"
-                  >
-                    SEO Tags
-                  </label>
-                  <textarea
-                    id="seo-tags"
-                    rows={2}
-                    value={seoTags}
-                    onChange={(e) => setSeoTags(e.target.value)}
-                    placeholder="construction, rebar, coupler, mechanical splice"
-                    className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary)]/20 transition resize-y"
+                <div className="rounded border border-gray-300 p-3">
+                  <div className="mb-2 flex flex-wrap gap-2">
+                    {seoTags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="flex items-center gap-2 rounded-full bg-gray-200 px-3 py-1 text-sm"
+                      >
+                        {tag}
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setSeoTags(seoTags.filter((item) => item !== tag))
+                          }
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+
+                  <input
+                    value={tagInput}
+                    onChange={(e) => setTagInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "," || e.key === "Enter") {
+                        e.preventDefault();
+
+                        addItem(tagInput, seoTags, setSeoTags, () =>
+                          setTagInput(""),
+                        );
+                      }
+                    }}
+                    placeholder="Type tag and press comma"
+                    className="w-full outline-none"
                   />
-                  <p className="mt-1 text-xs text-gray-400">
-                    Comma-separated tags to help categorise the page.
-                  </p>
                 </div>
+
+                <p className="mt-2 text-xs text-gray-400">
+                  {seoTags.length}/10 tags
+                </p>
 
                 {/* Save button */}
                 <div className="flex items-center gap-4 pt-2">

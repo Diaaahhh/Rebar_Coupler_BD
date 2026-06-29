@@ -161,7 +161,7 @@ export default function AdminVideosPage() {
             Video Link
           </label>
           <input
-            type="url"
+            type="text"
             value={videoUrl}
             onChange={(event) => setVideoUrl(event.target.value)}
             required

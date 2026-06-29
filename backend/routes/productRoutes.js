@@ -269,6 +269,36 @@ router.get("/slug/:slug", async (req, res) => {
   }
 });
 
+router.get("/available-sizes", async (req, res) => {
+  try {
+    const [rows] = await db.query(`
+      SELECT available_size
+      FROM products
+      WHERE available_size IS NOT NULL
+      AND available_size <> ''
+    `);
+
+    const sizes = new Set();
+
+    rows.forEach((row) => {
+      row.available_size
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .forEach((item) => sizes.add(item));
+    });
+
+    res.json({
+      sizes: [...sizes].sort((a, b) => Number(a) - Number(b)),
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const product = await getProductById(req.params.id, req);
@@ -325,7 +355,7 @@ availableSize,
     sample_test_system,
     threading_forging,
     short_description_html,
-          query_phone,
+          query_phone
         )
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)
       `,

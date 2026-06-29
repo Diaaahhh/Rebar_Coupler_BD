@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import RichTextEditor from "@/src/components/admin/RichTextEditor";
@@ -19,8 +19,9 @@ export default function NewProductPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [editorKey, setEditorKey] = useState(0);
-  const [availableSize, setAvailableSize] = useState("");
-  const [qualityTest, setQualityTest] = useState("");
+const [availableSizes, setAvailableSizes] = useState<string[]>([]);
+const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+const [customSizes, setCustomSizes] = useState("");  const [qualityTest, setQualityTest] = useState("");
   const [pricingSystem, setPricingSystem] = useState("");
   const [sampleTestSystem, setSampleTestSystem] = useState("");
   const [threadingForging, setThreadingForging] = useState("");
@@ -51,7 +52,20 @@ export default function NewProductPage() {
 
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("availableSize", availableSize);
+const mergedSizes = [
+  ...selectedSizes,
+  ...customSizes
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean),
+];
+
+const uniqueSizes = [...new Set(mergedSizes)];
+
+formData.append(
+  "availableSize",
+  uniqueSizes.join(", ")
+);
 formData.append("qualityTest", qualityTest);
 formData.append("pricingSystem", pricingSystem);
 formData.append("sampleTestSystem", sampleTestSystem);
@@ -86,6 +100,24 @@ formData.append("threadingForging", threadingForging);
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+  const loadSizes = async () => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/products/available-sizes`
+      );
+
+      const data = await response.json();
+
+      setAvailableSizes(data.sizes || []);
+    } catch {
+      // ignore
+    }
+  };
+
+  loadSizes();
+}, []);
 
   return (
     <div className="space-y-8">
@@ -189,14 +221,39 @@ formData.append("threadingForging", threadingForging);
           <h2 className="text-xl font-bold">Product Specifications</h2>
 
           <div>
-            <label>Available Size (mm)</label>
-            <input
-              type="text"
-              value={availableSize}
-              onChange={(e) => setAvailableSize(e.target.value)}
-              placeholder="16, 20, 25, 28, 32"
-              className="w-full rounded border p-3"
-            />
+            <label>Available Size</label>
+            <div className="space-y-3">
+
+  <select
+    multiple
+    value={selectedSizes}
+    onChange={(e) =>
+      setSelectedSizes(
+        Array.from(e.target.selectedOptions, (option) => option.value)
+      )
+    }
+    className="w-full rounded border p-3 h-40"
+  >
+    {availableSizes.map((size) => (
+      <option key={size} value={size}>
+        {size} 
+      </option>
+    ))}
+  </select>
+
+  <input
+    type="text"
+    placeholder="Add custom sizes (e.g. 50mm, 55mm)"
+    value={customSizes}
+    onChange={(e) => setCustomSizes(e.target.value)}
+    className="w-full rounded border p-3"
+  />
+
+  <p className="text-sm text-gray-500">
+    Hold Ctrl (Windows) or Cmd (Mac) to select multiple existing sizes.
+  </p>
+
+</div>
           </div>
 
           <div>
