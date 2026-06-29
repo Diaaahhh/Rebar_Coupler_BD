@@ -296,11 +296,8 @@ availableSize,
     pricingSystem,
     sampleTestSystem,
     threadingForging,
-    shortDescriptionHtml,      queryPhone,
-      seoTitle = "",
-      seoDescription = "",
-      seoKeywords = "",
-      seoTags = "",
+    shortDescriptionHtml,      
+    queryPhone,
     } = req.body || {};
     const images = req.files || [];
 
@@ -329,12 +326,8 @@ availableSize,
     threading_forging,
     short_description_html,
           query_phone,
-          seo_title,
-          seo_description,
-          seo_keywords,
-          seo_tags
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)
       `,
       [
         name,
@@ -347,10 +340,6 @@ availableSize,
     threadingForging,
         shortDescriptionHtml,
         queryPhone,
-        seoTitle,
-        seoDescription,
-        seoKeywords,
-        seoTags,
       ]
     );
 
@@ -403,10 +392,6 @@ router.put("/:id", requireAdmin, upload.array("images", 5), async (req, res) => 
     threadingForging,
       shortDescriptionHtml,
       queryPhone,
-      seoTitle = "",
-      seoDescription = "",
-      seoKeywords = "",
-      seoTags = "",
     } = req.body || {};
     const images = req.files || [];
 
@@ -421,14 +406,26 @@ router.put("/:id", requireAdmin, upload.array("images", 5), async (req, res) => 
     }
 
     const [existingProducts] = await connection.query(
-      "SELECT id FROM products WHERE id = ? LIMIT 1",
+       `
+  SELECT
+      id,
+      seo_title,
+      seo_description,
+      seo_keywords,
+      seo_tags
+  FROM products
+  WHERE id = ?
+  LIMIT 1
+  `,
       [req.params.id]
     );
 
     if (existingProducts.length === 0) {
       return res.status(404).json({ message: "Product not found" });
     }
+const existingProduct = existingProducts[0];
 
+console.log(existingProduct);
     const [oldImages] = await connection.query(
       "SELECT image_path FROM product_images WHERE product_id = ?",
       [req.params.id]
@@ -437,7 +434,6 @@ router.put("/:id", requireAdmin, upload.array("images", 5), async (req, res) => 
     await connection.beginTransaction();
 
     const nextSlug = await productSlug(name, req.params.id);
-console.log(req.body);
 
     await connection.query(
   `
@@ -453,10 +449,10 @@ console.log(req.body);
       threading_forging = ?,
       short_description_html = ?,
       query_phone = ?,
-      seo_title = ?,
-      seo_description = ?,
-      seo_keywords = ?,
-      seo_tags = ?
+    seo_title = ?,
+    seo_description = ?,
+    seo_keywords = ?,
+    seo_tags = ?
   WHERE id = ?
   `,
   [
@@ -470,10 +466,10 @@ console.log(req.body);
     threadingForging,
     shortDescriptionHtml,
     queryPhone,
-    seoTitle,
-    seoDescription,
-    seoKeywords,
-    seoTags,
+    existingProduct.seo_title,
+    existingProduct.seo_description,
+    existingProduct.seo_keywords,
+    existingProduct.seo_tags,
     req.params.id,
   ]
 );
@@ -525,6 +521,38 @@ console.log(req.body);
     res.status(500).json({ message: "Server Error" });
   } finally {
     connection.release();
+  }
+});
+
+router.patch("/:id/seo", requireAdmin, async (req, res) => {
+  try {
+    const {
+      seoTitle = "",
+      seoDescription = "",
+      seoKeywords = "",
+      seoTags = "",
+    } = req.body || {};
+
+    const [existing] = await db.query(
+      "SELECT id FROM products WHERE id = ? LIMIT 1",
+      [req.params.id]
+    );
+
+    if (existing.length === 0) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    await db.query(
+      `UPDATE products
+       SET seo_title = ?, seo_description = ?, seo_keywords = ?, seo_tags = ?
+       WHERE id = ?`,
+      [seoTitle, seoDescription, seoKeywords, seoTags, req.params.id]
+    );
+
+    res.json({ message: "SEO data updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
   }
 });
 

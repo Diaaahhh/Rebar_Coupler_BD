@@ -23,6 +23,7 @@ const dropdowns = [
     links: [
       { label: "All Products", href: "/admin/products" },
       { label: "Add Product", href: "/admin/products/new" },
+      { label: "Product SEO", href: "/admin/products/seo" },
     ],
   },
   {
