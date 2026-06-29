@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { API_BASE_URL } from "@/src/constants/api";
 import type { ContactSettings } from "@/src/types/contact";
+import { Save, Building2, Mail, Phone, MessageCircle, Map, Play, Share2 } from "lucide-react";
 
 export default function AdminContactPage() {
   const [officeAddress, setOfficeAddress] = useState("");
@@ -99,11 +100,13 @@ export default function AdminContactPage() {
 
       setMessage("Contact settings updated.");
       setMessageType("success");
+      setTimeout(() => setMessage(""), 3000);
+      
       await Swal.fire({
         icon: "success",
         title: "Saved",
         text: "Contact settings updated successfully.",
-        confirmButtonColor: "#29849f",
+        confirmButtonColor: "#0b8f22",
       });
     } catch {
       setMessage("Server Error");
@@ -120,17 +123,18 @@ export default function AdminContactPage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="mx-auto max-w-5xl space-y-8">
+      {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Contact</h1>
-        <p className="mt-2 text-gray-600">
-          Manage office details, social links, map embed, and contact messages.
+        <h1 className="text-3xl font-extrabold text-gray-900">Contact Settings</h1>
+        <p className="mt-2 text-gray-500">
+          Manage office details, social links, and Google Map embed.
         </p>
       </div>
 
       {message && (
         <div
-          className={`border p-4 text-sm font-semibold ${
+          className={`flex animate-fade-up items-center gap-3 rounded-xl border px-5 py-4 text-sm font-semibold shadow-sm ${
             messageType === "success"
               ? "border-green-200 bg-green-50 text-green-700"
               : "border-red-200 bg-red-50 text-red-700"
@@ -140,115 +144,169 @@ export default function AdminContactPage() {
         </div>
       )}
 
+      {/* Main Form Card */}
       <form
         onSubmit={handleSubmit}
-        className="space-y-5 border border-gray-200 bg-white p-6"
+        className="overflow-hidden rounded-2xl bg-white shadow-sm"
+        style={{ border: "1px solid rgba(0,0,0,0.06)" }}
       >
-        <h2 className="text-xl font-bold text-gray-900">Contact Settings</h2>
+        <div
+          className="h-1 w-full"
+          style={{
+            background:
+              "linear-gradient(90deg, var(--primary-dark), var(--primary-light))",
+          }}
+        />
 
-        <div>
-          <label className="mb-2 block font-semibold text-gray-800">
-            Office Address
-          </label>
-          <textarea
-            value={officeAddress}
-            onChange={(event) => setOfficeAddress(event.target.value)}
-            required
-            rows={4}
-            className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
-          />
+        <div className="p-8 space-y-10">
+          {/* Section: General Info */}
+          <div>
+            <h2 className="mb-6 flex items-center gap-2 text-xl font-bold text-gray-800">
+              <Building2 size={22} className="text-[var(--primary)]" />
+              General Information
+            </h2>
+            
+            <div className="space-y-6 rounded-xl border border-gray-100 bg-gray-50/50 p-6">
+              <div>
+                <label className="mb-2 block text-sm font-bold text-gray-700">
+                  Office Address
+                </label>
+                <textarea
+                  value={officeAddress}
+                  onChange={(event) => setOfficeAddress(event.target.value)}
+                  required
+                  rows={3}
+                  placeholder="e.g. 16-B, Rupayan Karim Tower, 80 VIP Rd, Dhaka 1000"
+                  className="w-full resize-none rounded-xl border border-gray-300 bg-white p-4 outline-none transition-all focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10"
+                />
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-2">
+                <div>
+                  <label className="mb-2 flex items-center gap-1.5 text-sm font-bold text-gray-700">
+                    <Mail size={15} className="text-gray-400" />
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    required
+                    placeholder="info@rebarcouplerbd.com"
+                    className="w-full rounded-xl border border-gray-300 bg-white p-3.5 outline-none transition-all focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 flex items-center gap-1.5 text-sm font-bold text-gray-700">
+                    <Phone size={15} className="text-gray-400" />
+                    Contact Number
+                  </label>
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
+                    required
+                    placeholder="09638-441144"
+                    className="w-full rounded-xl border border-gray-300 bg-white p-3.5 outline-none transition-all focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Section: Social & Online */}
+          <div>
+            <h2 className="mb-6 flex items-center gap-2 text-xl font-bold text-gray-800">
+              <Share2 size={22} className="text-[var(--primary)]" />
+              Social & Online Presence
+            </h2>
+            
+            <div className="grid gap-6 rounded-xl border border-gray-100 bg-gray-50/50 p-6 md:grid-cols-3">
+              <div>
+                <label className="mb-2 flex items-center gap-1.5 text-sm font-bold text-gray-700">
+                  <MessageCircle size={15} className="text-[#25D366]" />
+                  WhatsApp Number
+                </label>
+                <input
+                  type="tel"
+                  value={whatsappNumber}
+                  onChange={(event) => setWhatsappNumber(event.target.value)}
+                  placeholder="01958666900"
+                  className="w-full rounded-xl border border-gray-300 bg-white p-3.5 outline-none transition-all focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 flex items-center gap-1.5 text-sm font-bold text-gray-700">
+                  <Share2 size={15} className="text-[#1877F2]" />
+                  Facebook Link
+                </label>
+                <input
+                  type="url"
+                  value={facebookUrl}
+                  onChange={(event) => setFacebookUrl(event.target.value)}
+                  placeholder="https://facebook.com/..."
+                  className="w-full rounded-xl border border-gray-300 bg-white p-3.5 outline-none transition-all focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 flex items-center gap-1.5 text-sm font-bold text-gray-700">
+                  <Play size={15} className="text-[#FF0000]" />
+                  YouTube Link
+                </label>
+                <input
+                  type="url"
+                  value={youtubeUrl}
+                  onChange={(event) => setYoutubeUrl(event.target.value)}
+                  placeholder="https://youtube.com/..."
+                  className="w-full rounded-xl border border-gray-300 bg-white p-3.5 outline-none transition-all focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Section: Map Embed */}
+          <div>
+            <h2 className="mb-6 flex items-center gap-2 text-xl font-bold text-gray-800">
+              <Map size={22} className="text-[var(--primary)]" />
+              Google Map Embed
+            </h2>
+            
+            <div className="rounded-xl border border-gray-100 bg-gray-50/50 p-6">
+              <label className="mb-2 block text-sm font-bold text-gray-700">
+                Map iframe Code
+              </label>
+              <textarea
+                value={mapEmbedCode}
+                onChange={(event) => setMapEmbedCode(event.target.value)}
+                rows={4}
+                placeholder='<iframe src="https://www.google.com/maps/embed?..." loading="lazy"></iframe>'
+                className="w-full resize-none rounded-xl border border-gray-300 bg-white p-4 font-mono text-sm text-gray-600 outline-none transition-all focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10"
+              />
+              <p className="mt-3 text-sm font-medium text-gray-500">
+                Go to Google Maps &gt; Share &gt; Embed a map, and paste the full HTML code here.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
-          <div>
-            <label className="mb-2 block font-semibold text-gray-800">
-              Email
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              required
-              className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-semibold text-gray-800">
-              Contact Number
-            </label>
-            <input
-              type="tel"
-              value={phone}
-              onChange={(event) => setPhone(event.target.value)}
-              required
-              className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
-            />
-          </div>
+        {/* Form Footer */}
+        <div className="border-t border-gray-100 bg-gray-50 px-8 py-5 flex justify-end">
+          <button
+            type="submit"
+            disabled={loading}
+            className="group flex items-center gap-2 rounded-xl px-8 py-3 font-bold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-60 disabled:hover:translate-y-0"
+            style={{
+              background:
+                "linear-gradient(135deg, var(--primary-dark), var(--primary))",
+            }}
+          >
+            <Save size={18} className="transition-transform group-hover:scale-110" />
+            {loading ? "Saving..." : "Save Contact Settings"}
+          </button>
         </div>
-
-        <div className="grid gap-5 md:grid-cols-3">
-          <div>
-            <label className="mb-2 block font-semibold text-gray-800">
-              WhatsApp Number
-            </label>
-            <input
-              type="tel"
-              value={whatsappNumber}
-              onChange={(event) => setWhatsappNumber(event.target.value)}
-              placeholder="01958666900"
-              className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-semibold text-gray-800">
-              Facebook Link
-            </label>
-            <input
-              type="url"
-              value={facebookUrl}
-              onChange={(event) => setFacebookUrl(event.target.value)}
-              className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-semibold text-gray-800">
-              YouTube Link
-            </label>
-            <input
-              type="url"
-              value={youtubeUrl}
-              onChange={(event) => setYoutubeUrl(event.target.value)}
-              className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="mb-2 block font-semibold text-gray-800">
-            Google Map Embed Code
-          </label>
-          <textarea
-            value={mapEmbedCode}
-            onChange={(event) => setMapEmbedCode(event.target.value)}
-            rows={5}
-            placeholder='<iframe src="https://www.google.com/maps/embed?pb=..." width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>'
-            className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
-          />
-          <p className="mt-2 text-sm text-gray-500">
-            Paste the full Google Maps iframe embed code.
-          </p>
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="rounded bg-[var(--primary)] px-6 py-3 font-semibold text-white disabled:opacity-60"
-        >
-          {loading ? "Saving..." : "Save Contact Settings"}
-        </button>
       </form>
     </div>
   );
