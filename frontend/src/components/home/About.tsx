@@ -54,26 +54,7 @@ export default function About() {
             className="absolute -bottom-3 -right-3 h-full w-full rounded-3xl"
             style={{ background: "var(--primary)", opacity: 0.12 }}
           />
-          <div
-            className="group relative overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_rgba(11,143,34,0.20)]"
-          >
-            <Image
-              src={aboutData.bannerImage}
-              alt="Rebar Coupler Bangladesh Banner"
-              width={1200}
-              height={400}
-              className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-              priority
-            />
-            {/* Subtle gradient overlay */}
-            <div
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(to top, rgba(6,107,24,0.25) 0%, transparent 50%)",
-              }}
-            />
-          </div>
+          
         </div>
 
         {/* Highlight stats row */}
