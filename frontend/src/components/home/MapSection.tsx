@@ -9,6 +9,7 @@ const contactRows = [
     icon: Building2,
     label: "অফিসের ঠিকানা",
     isLink: false,
+    hrefPrefix: "",
   },
   {
     icon: Phone,
@@ -123,7 +124,6 @@ export default function MapSection() {
                       href="#"
                       aria-label={label}
                       className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-300 hover:scale-110 hover:shadow-lg"
-                      style={{ hover: { background: color } }}
                       onMouseEnter={(e) =>
                         (e.currentTarget.style.background = color)
                       }
