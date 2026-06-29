@@ -74,9 +74,7 @@ export default function RootLayout({
             content="upgrade-insecure-requests"
           />
         )}
-        {isProduction && (
-          <meta httpEquiv="refresh" content={`900; url=${currentUrl}`} />
-        )}
+        
         <meta property="og:type" content="website" />
       </head>
       <body className="min-h-screen flex flex-col">
