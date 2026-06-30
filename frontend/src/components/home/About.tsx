@@ -1,18 +1,61 @@
 "use client";
-import Image from "next/image";
-import { Phone, ShieldCheck, Award, MapPin } from "lucide-react";
-import { aboutData } from "@/src/constants/about";
+import { useEffect, useState } from "react";
+import { Icon } from "@iconify/react";
+import { API_BASE_URL } from "@/src/constants/api";
 import { useSiteSettings } from "@/src/hooks/useSiteSettings";
 
-const highlights = [
-  { icon: ShieldCheck, label: "6+ Years", sub: "Trusted Experience" },
-  { icon: Award, label: "BUET", sub: "Consultant Backed" },
-  { icon: MapPin, label: "Nationwide", sub: "Coverage" },
-];
+interface AboutCard {
+  id: number;
+  icon: string;
+  heading: string;
+  sub_heading: string;
+}
+
+interface AboutResponse {
+  home: {
+    id: number;
+    text: string;
+  };
+
+  cards: AboutCard[];
+}
 
 export default function About() {
   const { settings } = useSiteSettings();
-  const phone = settings?.phone || aboutData.phone;
+const [data, setData] = useState<AboutResponse | null>(null);
+
+const phone = settings?.phone;
+
+useEffect(() => {
+  const loadAbout = async () => {
+    try {
+      const res = await fetch(
+        `${API_BASE_URL}/api/about`,
+        {
+          cache: "no-store",
+        }
+      );
+
+      const json = await res.json();
+
+      setData(json);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  loadAbout();
+}, []);
+
+if (!data) {
+  return (
+    <section className="py-28">
+      <div className="container-custom">
+        Loading...
+      </div>
+    </section>
+  );
+}
 
   return (
     <section className="relative overflow-hidden py-28" style={{ background: "var(--bg-gray)" }}>
@@ -59,29 +102,44 @@ export default function About() {
 
         {/* Highlight stats row */}
         <div className="animate-fade-up delay-1 mx-auto mt-12 grid max-w-3xl grid-cols-3 gap-4">
-          {highlights.map(({ icon: Icon, label, sub }) => (
-            <div
-              key={label}
-              className="group flex flex-col items-center gap-2 rounded-2xl p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-              style={{
-                background: "var(--bg-light)",
-                border: "1px solid rgba(11,143,34,0.15)",
-              }}
-            >
-              <span
-                className="flex h-11 w-11 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110"
-                style={{ background: "rgba(11,143,34,0.1)" }}
-              >
-                <Icon size={22} style={{ color: "var(--primary)" }} />
-              </span>
-              <p className="text-xl font-extrabold" style={{ color: "var(--primary-dark)" }}>
-                {label}
-              </p>
-              <p className="text-xs font-medium" style={{ color: "var(--muted)" }}>
-                {sub}
-              </p>
-            </div>
-          ))}
+          {data.cards.map((card, index) => (
+  <div
+    key={card.id}
+    className="group flex flex-col items-center gap-2 rounded-2xl p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+    style={{
+      background: "var(--bg-light)",
+      border: "1px solid rgba(11,143,34,0.15)",
+    }}
+  >
+    <span
+      className="flex h-11 w-11 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110"
+      style={{
+        background: "rgba(11,143,34,0.1)",
+      }}
+    >
+      <Icon
+        icon={card.icon}
+        width={22}
+        height={22}
+        style={{ color: "var(--primary)" }}
+      />
+    </span>
+
+    <p
+      className="text-xl font-extrabold"
+      style={{ color: "var(--primary-dark)" }}
+    >
+      {card.heading}
+    </p>
+
+    <p
+      className="text-xs font-medium"
+      style={{ color: "var(--muted)" }}
+    >
+      {card.sub_heading}
+    </p>
+  </div>
+))}
         </div>
 
         {/* About text card */}
@@ -102,11 +160,9 @@ export default function About() {
             />
 
             <div className="space-y-6 text-[17px] leading-[1.95]" style={{ color: "var(--text-dark)" }}>
-              {aboutData.paragraphs.map((paragraph, index) => (
-                <p key={index} className={index === 0 ? "font-medium" : ""}>
-                  {paragraph}
-                </p>
-              ))}
+              <p className="font-medium">
+  {data.home.text}
+</p>
             </div>
           </div>
         </div>

@@ -7,28 +7,35 @@ import { API_BASE_URL } from '@/src/constants/api';
 
 interface AboutCard {
   id: number;
-  description: string;
   icon: string;
-  icon_heading: string;
-  icon_subheading: string;
-  sort_order: number;
+  heading: string;
+  sub_heading: string;
+}
+
+interface AboutResponse {
+  home: {
+    id: number;
+    text: string;
+  };
+
+  cards: AboutCard[];
 }
 
 interface AboutFormData {
   description: string;
   icon: string;
-  iconHeading: string;
-  iconSubheading: string;
+  heading: string;
+  subHeading: string;
 }
 
 export default function AboutSettingsForm() {
   const [cards, setCards] = useState<AboutCard[]>([]);
   const [formData, setFormData] = useState<AboutFormData>({
-    description: '',
-    icon: '',
-    iconHeading: '',
-    iconSubheading: '',
-  });
+  description: "",
+  icon: "",
+  heading: "",
+  subHeading: "",
+});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [editingCard, setEditingCard] = useState<AboutCard | null>(null);
@@ -42,8 +49,14 @@ export default function AboutSettingsForm() {
         credentials: 'include',
       });
       if (response.ok) {
-        const data = await response.json();
-        setCards(data);
+        const data: AboutResponse = await response.json();
+
+setCards(data.cards || []);
+
+setFormData((prev) => ({
+  ...prev,
+  description: data.home?.text || "",
+}));
       }
     } catch (error) {
       console.error('Could not load about cards', error);
@@ -57,23 +70,23 @@ export default function AboutSettingsForm() {
   }, []);
 
   const resetForm = () => {
-    setFormData({
-      description: '',
-      icon: '',
-      iconHeading: '',
-      iconSubheading: '',
-    });
+    setFormData((prev) => ({
+  description: prev.description,
+  icon: "",
+  heading: "",
+  subHeading: "",
+}));
     setEditingCard(null);
   };
 
   const handleEdit = (card: AboutCard) => {
     setEditingCard(card);
-    setFormData({
-      description: card.description,
-      icon: card.icon,
-      iconHeading: card.icon_heading,
-      iconSubheading: card.icon_subheading || '',
-    });
+    setFormData((prev) => ({
+  description: prev.description,
+  icon: card.icon,
+  heading: card.heading,
+  subHeading: card.sub_heading || "",
+}));
   };
 
   const handleDelete = async (id: number) => {
@@ -155,7 +168,7 @@ export default function AboutSettingsForm() {
       return;
     }
 
-    if (!formData.iconHeading.trim()) {
+    if (!formData.heading.trim()) {
       await Swal.fire({
         icon: 'error',
         title: 'Icon heading required',
@@ -169,11 +182,11 @@ export default function AboutSettingsForm() {
       setIsSubmitting(true);
 
       const payload = {
-        description: formData.description.trim(),
-        icon: formData.icon.trim(),
-        icon_heading: formData.iconHeading.trim(),
-        icon_subheading: formData.iconSubheading.trim(),
-      };
+  text: formData.description.trim(),
+  icon: formData.icon.trim(),
+  heading: formData.heading.trim(),
+  sub_heading: formData.subHeading.trim(),
+};
 
       const url = editingCard
         ? `${API_BASE_URL}/api/about/${editingCard.id}`
@@ -290,7 +303,7 @@ export default function AboutSettingsForm() {
                   />
                   <div className="absolute top-3 right-3">
                     <span className="rounded-full bg-blue-600 px-3 py-1 text-xs font-semibold text-white">
-                      Order: {card.sort_order || 0}
+                     ID: {card.id}
                     </span>
                   </div>
                 </div>
@@ -299,15 +312,15 @@ export default function AboutSettingsForm() {
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
                     <h3 className="text-lg font-bold text-gray-900 line-clamp-1">
-                      {card.icon_heading}
+                      {card.heading}
                     </h3>
-                    {card.icon_subheading && (
+                    {card.sub_heading && (
                       <p className="text-sm text-gray-600 mt-1 line-clamp-1">
-                        {card.icon_subheading}
+                        {card.sub_heading}
                       </p>
                     )}
                     <p className="text-sm text-gray-500 mt-3 line-clamp-3">
-                      {card.description}
+                      {formData.description}
                     </p>
                   </div>
 
@@ -341,7 +354,7 @@ export default function AboutSettingsForm() {
       >
         <div>
           <h2 className="text-xl font-bold text-gray-900">
-            {editingCard ? `Edit About Card: ${editingCard.icon_heading}` : "Add New About Card"}
+            {editingCard ? `Edit About Card: ${editingCard.heading}` : "Add New About Card"}
           </h2>
           <p className="mt-2 text-sm text-gray-600">
             {editingCard
@@ -403,8 +416,8 @@ export default function AboutSettingsForm() {
             </label>
             <input
               type="text"
-              name="iconHeading"
-              value={formData.iconHeading}
+              name="heading"
+              value={formData.heading}
               onChange={handleInputChange}
               required
               placeholder="e.g., Premium Quality"
@@ -419,8 +432,8 @@ export default function AboutSettingsForm() {
             </label>
             <input
               type="text"
-              name="iconSubheading"
-              value={formData.iconSubheading}
+              name="subHeading"
+              value={formData.subHeading}
               onChange={handleInputChange}
               placeholder="e.g., Industry-leading materials"
               className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[#0b8f22] focus:ring-1 focus:ring-[#0b8f22]"
