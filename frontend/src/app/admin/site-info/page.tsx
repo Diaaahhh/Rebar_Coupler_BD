@@ -1,6 +1,8 @@
 import LogoSettingsForm from "@/src/components/admin/LogoSettingsForm";
 import SeoSettingsForm from "@/src/components/admin/SeoSettingsForm";
-
+import HeroSettingsForm from "@/src/components/admin/HeroSettingsForm";
+import BenefitSettingsForm from "@/src/components/admin/BenefitSettingsForm";
+import AboutSettingsForm from "@/src/components/admin/AboutSettingsForm";
 export default function AdminSiteInfoPage() {
   return (
     <div className="space-y-8">
@@ -14,6 +16,9 @@ export default function AdminSiteInfoPage() {
 
       <LogoSettingsForm />
       <SeoSettingsForm />
+      <HeroSettingsForm />
+      <BenefitSettingsForm/>
+      <AboutSettingsForm/>
     </div>
   );
 }

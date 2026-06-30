@@ -3,20 +3,57 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { heroData } from "@/src/constants/hero";
+import { API_BASE_URL } from "../../constants/api";
+import type { HeroSlide } from "@/src/types/hero";
 
 export default function HeroSection() {
+
   const [currentSlide, setCurrentSlide] = useState(0);
+const [slides,setSlides]=useState<HeroSlide[]>([]);
+const slide = slides[currentSlide];
+
+useEffect(()=>{
+
+const load=async()=>{
+
+const res=await fetch(`${API_BASE_URL}/api/hero`,{
+cache:"no-store"
+});
+
+const data=await res.json();
+
+setSlides(data);
+
+};
+
+load();
+
+},[]);
 
 useEffect(() => {
+
+  if (slides.length === 0) return;
+
   const interval = setInterval(() => {
+
     setCurrentSlide((prev) =>
-      (prev + 1) % heroData.slides.length
+      (prev + 1) % slides.length
     );
+
   }, 5000);
 
   return () => clearInterval(interval);
-}, []);
+
+}, [slides]);
+
+
+if (!slides.length) {
+  return (
+    <section className="relative min-h-[700px] bg-gray-900" />
+  );
+}
+
+
   return (
     <section
       className="
@@ -27,24 +64,29 @@ useEffect(() => {
       {/* Background */}
       <div className="absolute inset-0">
 
-  {heroData.slides.map((image, index) => (
+  {slides.map((slide, index) => (
 
-    <Image
-      key={index}
-      src={image}
-      alt={`Hero ${index + 1}`}
-      fill
-      priority={index === 0}
-      className={`
-        object-cover
-        transition-opacity
-        duration-1000
-        ease-in-out
-        ${currentSlide === index ? "opacity-100 scale-105" : "opacity-0"}
-      `}
-    />
+  <Image
+    key={slide.id}
+    src={`${API_BASE_URL}/${slide.image}`}
+    alt={slide.title}
+    fill
+    unoptimized
+    priority={index === 0}
+    className={`
+      object-cover
+      transition-opacity
+      duration-1000
+      ease-in-out
+      ${
+        currentSlide === index
+          ? "opacity-100 scale-105"
+          : "opacity-0"
+      }
+    `}
+  />
 
-  ))}
+))}
 
 </div>
 
@@ -93,7 +135,7 @@ useEffect(() => {
     animate-[slideUp_.8s_ease_forwards]
   "
 >
-                  {heroData.title}
+                  {slide?.title}
                 </h1>
 
                 <h2
@@ -106,7 +148,7 @@ useEffect(() => {
     animate-[slideUp_.8s_ease_.25s_forwards]
   "
 >
-                  {heroData.subtitle}
+                  {slide?.subtitle}
                 </h2>
 
                 <p
@@ -120,7 +162,7 @@ useEffect(() => {
     animate-[slideUp_.8s_ease_.5s_forwards]
   "
 >
-                  {heroData.description}
+                  {slide?.description}
                 </p>
 
                 <div
@@ -134,7 +176,7 @@ useEffect(() => {
   "
 >
                   <Link
-                    href={heroData.buttonOne.href}
+                    href={slide?.button_link || "#"}
                     className="
                       px-8
                       py-4
@@ -150,11 +192,11 @@ useEffect(() => {
                         "var(--text-dark)",
                     }}
                   >
-                    {heroData.buttonOne.text}
+                    {slide?.button_text}
                   </Link>
 
                   <Link
-                    href={heroData.buttonTwo.href}
+                    href="/contact"
                     className="
                       px-8
                       py-4
@@ -168,13 +210,13 @@ useEffect(() => {
                         "var(--accent)",
                     }}
                   >
-                    {heroData.buttonTwo.text}
+                    Contact Us
                   </Link>
                 </div>
               </div>
 
               {/* RIGHT */}
-              <div
+              {/* <div
   className="
     hidden
     lg:flex
@@ -221,7 +263,7 @@ useEffect(() => {
       </div>
     ))}
   </div>
-</div>
+</div> */}
             </div>
           </div>
         </div>
@@ -237,7 +279,7 @@ useEffect(() => {
     z-20
   "
 >
-  {heroData.slides.map((_, index) => (
+  {slides.map((_, index) => (
     <button
       key={index}
       onClick={() => setCurrentSlide(index)}

@@ -19,7 +19,7 @@ export default function Home() {
       <BenefitSection />
       <About />
       <FAQSection />
-      <MapSection />
+      {/* <MapSection /> */}
     </>
   );
 }

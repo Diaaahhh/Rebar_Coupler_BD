@@ -111,56 +111,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* CTA banner */}
-        <div className="animate-fade-up delay-3 mt-14">
-          <div
-            className="relative overflow-hidden rounded-3xl px-8 py-12 shadow-2xl md:px-14"
-            style={{
-              background: "linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-light) 100%)",
-            }}
-          >
-            {/* Decorative circles */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full opacity-10"
-              style={{ background: "white" }}
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -bottom-10 -left-10 h-40 w-40 rounded-full opacity-10"
-              style={{ background: "white" }}
-            />
-
-            <div className="relative z-10 flex flex-col items-center justify-between gap-8 lg:flex-row">
-              <div>
-                <p
-                  className="mb-1 text-xs font-semibold uppercase tracking-widest opacity-70"
-                  style={{ color: "white" }}
-                >
-                  Direct Consultation
-                </p>
-                <h3
-                  className="text-xl font-bold leading-snug md:text-3xl"
-                  style={{ color: "var(--text-light)" }}
-                >
-                  {aboutData.ctaText}
-                </h3>
-              </div>
-
-              <a
-                href={`tel:${phone}`}
-                className="animate-float inline-flex shrink-0 items-center gap-3 rounded-full px-10 py-4 text-lg font-bold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                style={{
-                  background: "var(--accent)",
-                  color: "#fff",
-                }}
-              >
-                <Phone size={20} />
-                {phone}
-              </a>
-            </div>
-          </div>
-        </div>
+     
       </div>
     </section>
   );

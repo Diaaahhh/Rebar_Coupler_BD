@@ -13,6 +13,9 @@ import contactRoutes from "./routes/contactRoutes.js";
 import siteRoutes from "./routes/siteRoutes.js";
 import articleRoutes from "./routes/articleRoutes.js";
 import userQueryRoutes from "./routes/userQueryRoutes.js";
+import heroRoutes from "./routes/heroRoutes.js";
+import benefitRoutes from "./routes/benefitRoutes.js";
+
 const app = express();
 
 app.use(express.json({ limit: "2mb" }));
@@ -46,7 +49,8 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/site", siteRoutes);
 app.use("/api/article", articleRoutes);
 app.use("/api/user-query", userQueryRoutes);
-
+app.use("/api/hero", heroRoutes);
+app.use("/api/benefits", benefitRoutes);
 db.query("SELECT 1")
   .then(() => {
     console.log("Database Connected!");

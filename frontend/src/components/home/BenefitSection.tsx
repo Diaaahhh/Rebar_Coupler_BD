@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import { Phone } from "lucide-react";
-import { benefitData } from "@/src/constants/benefits";
+import { useEffect, useState } from "react";
+import { API_BASE_URL } from "@/src/constants/api";
 import { useSiteSettings } from "@/src/hooks/useSiteSettings";
 
 const accentColors = [
@@ -21,10 +21,61 @@ const iconColors = [
   "var(--accent)",
 ];
 
-export default function BenefitSection() {
-  const { settings } = useSiteSettings();
-  const phone = settings?.phone || benefitData.phone;
+interface BenefitItem {
+  id: number;
+  title: string;
+  subtitle: string;
+  icon: string;
+  sort_order: number;
+}
 
+interface BenefitResponse {
+  section: {
+    heading: string;
+    subheading: string;
+  };
+
+  benefits: BenefitItem[];
+}
+export default function BenefitSection() {
+  const [data, setData] = useState<BenefitResponse | null>(null);
+  const { settings } = useSiteSettings();
+  useEffect(() => {
+
+  const loadBenefits = async () => {
+
+    try {
+
+      const res = await fetch(
+        `${API_BASE_URL}/api/benefits`,
+        {
+          cache: "no-store",
+        }
+      );
+
+      const json = await res.json();
+
+      setData(json);
+
+    } catch (err) {
+      console.error(err);
+    }
+
+  };
+
+  loadBenefits();
+
+}, []);
+
+if (!data) {
+  return (
+    <section className="py-28">
+      <div className="container-custom">
+        Loading...
+      </div>
+    </section>
+  );
+}
   return (
     <section
       className="relative overflow-hidden py-28"
@@ -64,7 +115,7 @@ export default function BenefitSection() {
             className="mt-4 text-4xl font-extrabold leading-tight md:text-5xl"
             style={{ color: "var(--primary-dark)" }}
           >
-            {benefitData.heading}
+           {data.section.heading}
           </h2>
 
           {/* Gradient underline */}
@@ -76,13 +127,13 @@ export default function BenefitSection() {
             className="mx-auto mt-6 max-w-3xl text-lg leading-8"
             style={{ color: "var(--muted)" }}
           >
-            {benefitData.subHeading}
+            {data.section.subheading}
           </p>
         </div>
 
         {/* Benefits grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {benefitData.items.map((item, index) => (
+          {data.benefits.map((item, index) => (
             <div
               key={index}
               className={`group relative overflow-hidden rounded-2xl p-6 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl animate-fade-up delay-${(index % 6) + 1}`}
@@ -114,10 +165,11 @@ export default function BenefitSection() {
                   style={{ background: accentColors[index], border: `1.5px solid ${iconColors[index]}22` }}
                 >
                   <Image
-                    src={item.icon}
+                    src={`${API_BASE_URL}/${item.icon}`}
                     alt={item.title}
                     width={38}
                     height={38}
+                    unoptimized
                     className="transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
@@ -129,6 +181,12 @@ export default function BenefitSection() {
                     style={{ color: "var(--text-dark)" }}
                   >
                     {item.title}
+                    <p
+  className="mt-2 text-sm leading-6"
+  style={{ color: "var(--muted)" }}
+>
+  {item.subtitle}
+</p>
                   </h3>
                   {/* Subtle number badge */}
                   <span
@@ -143,60 +201,7 @@ export default function BenefitSection() {
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="animate-fade-up mt-20">
-          <div
-            className="relative overflow-hidden rounded-3xl px-8 py-14 text-center shadow-2xl"
-            style={{
-              background:
-                "linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, var(--primary-light) 100%)",
-            }}
-          >
-            {/* Decorative elements */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full opacity-[0.08]"
-              style={{ background: "white" }}
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -bottom-16 left-10 h-52 w-52 rounded-full opacity-[0.07]"
-              style={{ background: "var(--accent)" }}
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.04]"
-              style={{ background: "white" }}
-            />
-
-            <div className="relative z-10">
-              <p
-                className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] opacity-70"
-                style={{ color: "white" }}
-              >
-                Get In Touch
-              </p>
-              <h3
-                className="text-2xl font-extrabold md:text-3xl"
-                style={{ color: "var(--text-light)" }}
-              >
-                যেকোনো প্রয়োজনে Call অথবা WhatsApp
-              </h3>
-
-              <a
-                href={`tel:${phone}`}
-                className="animate-float mt-10 inline-flex items-center gap-3 rounded-full px-12 py-4 text-lg font-bold shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-                style={{
-                  background: "var(--accent)",
-                  color: "#fff",
-                }}
-              >
-                <Phone size={20} />
-                {phone}
-              </a>
-            </div>
-          </div>
-        </div>
+        
       </div>
     </section>
   );
