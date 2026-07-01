@@ -58,10 +58,12 @@ if (!slides.length) {
     <section
       className="
         relative
-        overflow-hidden
+        overflow-hidden flex justify-center
       "
+      
     >
-      {/* Background */}
+      <div className="formatted_body">
+ {/* Background */}
       <div className="absolute inset-0">
 
   {slides.map((slide, index) => (
@@ -216,7 +218,7 @@ if (!slides.length) {
               </div>
 
               {/* RIGHT */}
-              {/* <div
+              <div
   className="
     hidden
     lg:flex
@@ -263,7 +265,7 @@ if (!slides.length) {
       </div>
     ))}
   </div>
-</div> */}
+</div> 
             </div>
           </div>
         </div>
@@ -298,6 +300,8 @@ if (!slides.length) {
     />
   ))}
 </div>
+      </div>
+     
     </section>
   );
 }

@@ -4,7 +4,16 @@ import { FormEvent, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { API_BASE_URL } from "@/src/constants/api";
 import type { ContactSettings } from "@/src/types/contact";
-import { Save, Building2, Mail, Phone, MessageCircle, Map, Play, Share2 } from "lucide-react";
+import {
+  Save,
+  Building2,
+  Mail,
+  Phone,
+  MessageCircle,
+  Map,
+  Play,
+  Share2,
+} from "lucide-react";
 
 export default function AdminContactPage() {
   const [officeAddress, setOfficeAddress] = useState("");
@@ -86,7 +95,8 @@ export default function AdminContactPage() {
       };
 
       if (!response.ok) {
-        const errorMessage = data.message || "Could not update contact settings.";
+        const errorMessage =
+          data.message || "Could not update contact settings.";
         setMessage(errorMessage);
         setMessageType("error");
         await Swal.fire({
@@ -101,7 +111,7 @@ export default function AdminContactPage() {
       setMessage("Contact settings updated.");
       setMessageType("success");
       setTimeout(() => setMessage(""), 3000);
-      
+
       await Swal.fire({
         icon: "success",
         title: "Saved",
@@ -126,7 +136,9 @@ export default function AdminContactPage() {
     <div className="mx-auto max-w-5xl space-y-8">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-extrabold text-gray-900">Contact Settings</h1>
+        <h1 className="text-3xl font-extrabold text-gray-900">
+          Contact Settings
+        </h1>
         <p className="mt-2 text-gray-500">
           Manage office details, social links, and Google Map embed.
         </p>
@@ -165,7 +177,7 @@ export default function AdminContactPage() {
               <Building2 size={22} className="text-[var(--primary)]" />
               General Information
             </h2>
-            
+
             <div className="space-y-6 rounded-xl border border-gray-100 bg-gray-50/50 p-6">
               <div>
                 <label className="mb-2 block text-sm font-bold text-gray-700">
@@ -207,7 +219,7 @@ export default function AdminContactPage() {
                     value={phone}
                     onChange={(event) => setPhone(event.target.value)}
                     required
-                    placeholder="09638-441144"
+                    placeholder="01814-445932"
                     className="w-full rounded-xl border border-gray-300 bg-white p-3.5 outline-none transition-all focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10"
                   />
                 </div>
@@ -221,7 +233,7 @@ export default function AdminContactPage() {
               <Share2 size={22} className="text-[var(--primary)]" />
               Social & Online Presence
             </h2>
-            
+
             <div className="grid gap-6 rounded-xl border border-gray-100 bg-gray-50/50 p-6 md:grid-cols-3">
               <div>
                 <label className="mb-2 flex items-center gap-1.5 text-sm font-bold text-gray-700">
@@ -273,7 +285,7 @@ export default function AdminContactPage() {
               <Map size={22} className="text-[var(--primary)]" />
               Google Map Embed
             </h2>
-            
+
             <div className="rounded-xl border border-gray-100 bg-gray-50/50 p-6">
               <label className="mb-2 block text-sm font-bold text-gray-700">
                 Map iframe Code
@@ -286,7 +298,8 @@ export default function AdminContactPage() {
                 className="w-full resize-none rounded-xl border border-gray-300 bg-white p-4 font-mono text-sm text-gray-600 outline-none transition-all focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10"
               />
               <p className="mt-3 text-sm font-medium text-gray-500">
-                Go to Google Maps &gt; Share &gt; Embed a map, and paste the full HTML code here.
+                Go to Google Maps &gt; Share &gt; Embed a map, and paste the
+                full HTML code here.
               </p>
             </div>
           </div>
@@ -303,7 +316,10 @@ export default function AdminContactPage() {
                 "linear-gradient(135deg, var(--primary-dark), var(--primary))",
             }}
           >
-            <Save size={18} className="transition-transform group-hover:scale-110" />
+            <Save
+              size={18}
+              className="transition-transform group-hover:scale-110"
+            />
             {loading ? "Saving..." : "Save Contact Settings"}
           </button>
         </div>

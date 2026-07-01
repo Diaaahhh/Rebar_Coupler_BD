@@ -10,7 +10,7 @@ export const fallbackSiteSettings: SiteSettings = {
   favicon_url: siteConfig.favicon,
   og_image_path: siteConfig.defaultOgImage,
   og_image_url: siteConfig.defaultOgImage,
-  phone: "09638-441144",
+  phone: "01814-445932",
   site_title: siteConfig.siteName,
   seo_title: siteConfig.siteName,
   seo_description: siteConfig.defaultDescription,

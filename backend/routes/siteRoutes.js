@@ -84,11 +84,11 @@ function removeUploadedPath(uploadPath) {
   }
 
   const filePath = path.join(process.cwd(), uploadPath.replace(/^\//, ""));
-  fs.rm(filePath, { force: true }, () => {});
+  fs.rm(filePath, { force: true }, () => { });
 }
 
 async function getSettings(req) {
-  
+
   const [rows] = await db.query(
     `
       SELECT
@@ -117,7 +117,7 @@ async function getSettings(req) {
     logo_path: "/logo.png",
     favicon_path: null,
     og_image_path: null,
-    phone: "09638-441144",
+    phone: "01814-445932",
     site_title: "Rebar Coupler Bangladesh",
     seo_title: null,
     seo_description: null,
@@ -231,7 +231,7 @@ router.put(
           nextLogoPath,
           nextFaviconPath,
           nextOgImagePath,
-          fieldValue("phone", existing.phone || "09638-441144"),
+          fieldValue("phone", existing.phone || "01814-445932"),
           fieldValue("siteTitle", existing.site_title || "Rebar Coupler Bangladesh"),
           fieldValue("seoTitle", existing.seo_title || ""),
           fieldValue("seoDescription", existing.seo_description || ""),
@@ -260,7 +260,7 @@ router.put(
     } catch (error) {
       for (const files of Object.values(req.files || {})) {
         for (const file of files) {
-          fs.rm(file.path, { force: true }, () => {});
+          fs.rm(file.path, { force: true }, () => { });
         }
       }
 

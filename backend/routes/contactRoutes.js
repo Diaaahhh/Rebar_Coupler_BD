@@ -29,7 +29,7 @@ async function getSettings() {
       id: 1,
       office_address: "Office address will be updated from admin panel.",
       email: "info@example.com",
-      phone: "09638-441144",
+      phone: "01814-445932",
       whatsapp_number: "",
       facebook_url: "",
       youtube_url: "",

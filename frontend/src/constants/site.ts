@@ -1,5 +1,5 @@
 export const siteData = {
-  phone: "09638-441144",
+  phone: "01814-445932",
 
   navLinks: [
     {

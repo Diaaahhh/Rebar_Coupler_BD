@@ -109,7 +109,7 @@ export default function Navbar() {
               >
                 <div
                   className={`transition-all duration-500 ${
-                    scrolled ? "h-[50px]" : "h-[70px] lg:h-[80px]"
+                    scrolled ? "h-[68px]" : "h-[80px] lg:h-[90px]"
                   }`}
                 >
                   <DynamicLogo className="h-full w-auto object-contain" />

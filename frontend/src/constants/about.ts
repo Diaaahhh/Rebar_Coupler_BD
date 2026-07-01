@@ -12,5 +12,5 @@ export const aboutData = {
   ctaText:
     "Coupler সম্পর্কে যেকোনো তথ্যের জন্য সরাসরি ফোন করুন",
 
-  phone: "09638-441144",
+  phone: "01814-445932",
 };

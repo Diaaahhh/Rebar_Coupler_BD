@@ -4,7 +4,7 @@ export const benefitData = {
   subHeading:
     "Couplers are fully compliant with BNBC and international standards while providing a safer and stronger mechanical connection.",
 
-  phone: "09638-441144",
+  phone: "01814-445932",
 
   items: [
     {

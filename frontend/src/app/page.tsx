@@ -4,7 +4,7 @@ import FAQSection from "@/src/components/home/FAQSection";
 import About from "@/src/components/home/About";
 import MapSection from "@/src/components/home/MapSection";
 import { generateSiteMetadata } from "@/src/lib/pageMetadata";
-
+import FloatingWhatsapp from "../components/common/FloatingWhatsapp";
 export function generateMetadata() {
   return generateSiteMetadata({
     path: "/",
@@ -19,6 +19,7 @@ export default function Home() {
       <BenefitSection />
       <About />
       <FAQSection />
+      <FloatingWhatsapp />
       {/* <MapSection /> */}
     </>
   );

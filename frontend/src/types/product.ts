@@ -15,6 +15,7 @@ quality_test: string;
 pricing_system: string;
 sample_test_system: string;
 threading_forging: string;
+installing_team: string;
   details_html?: string;
   short_description_html: string;
   query_phone: string;

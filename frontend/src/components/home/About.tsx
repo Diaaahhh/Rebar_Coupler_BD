@@ -58,8 +58,9 @@ if (!data) {
 }
 
   return (
-    <section className="relative overflow-hidden py-28" style={{ background: "var(--bg-gray)" }}>
-      {/* Decorative background blobs */}
+    <section className="relative overflow-hidden py-28 flex justify-center" style={{ background: "var(--bg-light)" }}>
+      <div className="formatted_body">
+ {/* Decorative background blobs */}
       <div
         aria-hidden
         className="pointer-events-none absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full opacity-[0.07] blur-3xl"
@@ -168,6 +169,7 @@ if (!data) {
         </div>
 
      
+      </div>
       </div>
     </section>
   );

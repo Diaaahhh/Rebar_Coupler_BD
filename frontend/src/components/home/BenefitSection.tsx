@@ -78,10 +78,12 @@ if (!data) {
 }
   return (
     <section
-      className="relative overflow-hidden py-28"
-      style={{ background: "var(--bg-light)" }}
+      className="relative overflow-hidden  flex justify-center  "
+      style={{ background: "var(--bg-light)",
+       }}
     >
-      {/* Background decoration */}
+      <div className="formatted_body">
+{/* Background decoration */}
       <div
         aria-hidden
         className="pointer-events-none absolute right-0 top-0 h-[600px] w-[600px] -translate-y-1/3 translate-x-1/3 rounded-full opacity-[0.05] blur-3xl"
@@ -93,7 +95,8 @@ if (!data) {
         style={{ background: "var(--secondary)" }}
       />
 
-      <div className="container-custom relative z-10">
+      <div className="container-custom relative z-10"
+      >
         {/* Heading */}
         <div className="animate-fade-up mb-16 text-center">
           <span
@@ -203,6 +206,9 @@ if (!data) {
 
         
       </div>
+
+      </div>
+      
     </section>
   );
 }

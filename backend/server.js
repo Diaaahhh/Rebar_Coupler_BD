@@ -16,6 +16,7 @@ import userQueryRoutes from "./routes/userQueryRoutes.js";
 import heroRoutes from "./routes/heroRoutes.js";
 import benefitRoutes from "./routes/benefitRoutes.js";
 import aboutHomeRoutes from "./routes/aboutHomeRoutes.js";
+import faqRoutes from "./routes/faqRoutes.js";
 
 const app = express();
 
@@ -53,6 +54,7 @@ app.use("/api/user-query", userQueryRoutes);
 app.use("/api/hero", heroRoutes);
 app.use("/api/benefits", benefitRoutes);
 app.use("/api/about", aboutHomeRoutes);
+app.use("/api/faq", faqRoutes);
 db.query("SELECT 1")
   .then(() => {
     console.log("Database Connected!");

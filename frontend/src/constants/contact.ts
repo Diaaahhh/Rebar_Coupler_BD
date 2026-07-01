@@ -4,7 +4,7 @@ export const contactData = {
   address:
     "16-B, Rupayan Karim Tower, 80 VIP Rd, Dhaka 1000",
 
-  phone: "09638-441144",
+  phone: "01814-445932",
 
   email: "info@rebarcouplerbd.com",
 

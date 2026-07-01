@@ -38,6 +38,18 @@
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
   --transition: all 0.3s ease;
 }
+.formatted_body{
+   width: 1400px;
+        height: 100%;
+        padding-Top: 20px;
+        padding-Bottom: 40px;
+        margin-top: 10px;
+        margin-bottom: 0px;
+      background: var(--bg-gray);
+}
+.arial-black {
+  font-family: "Arial Black", Arial, sans-serif;
+}
 
 html {
   scroll-behavior: smooth;

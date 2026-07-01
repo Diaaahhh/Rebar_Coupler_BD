@@ -61,7 +61,7 @@ function slugBase(name) {
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "") || "product";
+    .replace(/(^-|-$)/g, "") || "pro";
 }
 
 async function productSlug(name, excludeId = null) {
@@ -112,6 +112,7 @@ p.quality_test,
 p.pricing_system,
 p.sample_test_system,
 p.threading_forging,
+p.installing_team,
         p.short_description_html,
         p.query_phone,
         p.seo_title,
@@ -171,6 +172,7 @@ p.quality_test,
 p.pricing_system,
 p.sample_test_system,
 p.threading_forging,
+p.installing_team,
         p.short_description_html,
         p.query_phone,
         p.seo_title,
@@ -319,16 +321,17 @@ router.post("/", requireAdmin, upload.array("images", 5), async (req, res) => {
 
   try {
     const {
-      name,
-      detailsHtml,
-availableSize,
-    qualityTest,
-    pricingSystem,
-    sampleTestSystem,
-    threadingForging,
-    shortDescriptionHtml,      
-    queryPhone,
-    } = req.body || {};
+  name,
+  detailsHtml,
+  availableSize,
+  qualityTest,
+  pricingSystem,
+  sampleTestSystem,
+  threadingForging,
+  installingTeam,
+  shortDescriptionHtml,
+  queryPhone,
+} = req.body || {};
     const images = req.files || [];
 
     if (!name || !detailsHtml || !shortDescriptionHtml || !queryPhone) {
@@ -345,32 +348,34 @@ availableSize,
     const [result] = await connection.query(
       `
         INSERT INTO products
-        (
-          name,
-          slug,
-          details_html,
-           available_size,
-    quality_test,
-    pricing_system,
-    sample_test_system,
-    threading_forging,
-    short_description_html,
-          query_phone
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+(
+  name,
+  slug,
+  details_html,
+  available_size,
+  quality_test,
+  pricing_system,
+  sample_test_system,
+  threading_forging,
+  installing_team,
+  short_description_html,
+  query_phone
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
       [
-        name,
-        await productSlug(name),
-        detailsHtml,   
-availableSize,
-    qualityTest,
-    pricingSystem,
-    sampleTestSystem,
-    threadingForging,
-        shortDescriptionHtml,
-        queryPhone,
-      ]
+  name,
+  await productSlug(name),
+  detailsHtml,
+  availableSize,
+  qualityTest,
+  pricingSystem,
+  sampleTestSystem,
+  threadingForging,
+  installingTeam,
+  shortDescriptionHtml,
+  queryPhone,
+]
     );
 
     const productId = result.insertId;
@@ -413,16 +418,17 @@ router.put("/:id", requireAdmin, upload.array("images", 5), async (req, res) => 
 
   try {
     const {
-      name,
-      detailsHtml,
-      availableSize,
-    qualityTest,
-    pricingSystem,
-    sampleTestSystem,
-    threadingForging,
-      shortDescriptionHtml,
-      queryPhone,
-    } = req.body || {};
+  name,
+  detailsHtml,
+  availableSize,
+  qualityTest,
+  pricingSystem,
+  sampleTestSystem,
+  threadingForging,
+  installingTeam,
+  shortDescriptionHtml,
+  queryPhone,
+} = req.body || {};
     const images = req.files || [];
 
     if (!name || !detailsHtml || !shortDescriptionHtml || !queryPhone) {
@@ -468,40 +474,42 @@ console.log(existingProduct);
     await connection.query(
   `
   UPDATE products
-  SET
-      name = ?,
-      slug = ?,
-      details_html = ?,
-      available_size = ?,
-      quality_test = ?,
-      pricing_system = ?,
-      sample_test_system = ?,
-      threading_forging = ?,
-      short_description_html = ?,
-      query_phone = ?,
+SET
+    name = ?,
+    slug = ?,
+    details_html = ?,
+    available_size = ?,
+    quality_test = ?,
+    pricing_system = ?,
+    sample_test_system = ?,
+    threading_forging = ?,
+    installing_team = ?,
+    short_description_html = ?,
+    query_phone = ?,
     seo_title = ?,
     seo_description = ?,
     seo_keywords = ?,
     seo_tags = ?
-  WHERE id = ?
+WHERE id = ?
   `,
   [
-    name,
-    nextSlug,
-    detailsHtml,
-    availableSize,
-    qualityTest,
-    pricingSystem,
-    sampleTestSystem,
-    threadingForging,
-    shortDescriptionHtml,
-    queryPhone,
-    existingProduct.seo_title,
-    existingProduct.seo_description,
-    existingProduct.seo_keywords,
-    existingProduct.seo_tags,
-    req.params.id,
-  ]
+  name,
+  nextSlug,
+  detailsHtml,
+  availableSize,
+  qualityTest,
+  pricingSystem,
+  sampleTestSystem,
+  threadingForging,
+  installingTeam,
+  shortDescriptionHtml,
+  queryPhone,
+  existingProduct.seo_title,
+  existingProduct.seo_description,
+  existingProduct.seo_keywords,
+  existingProduct.seo_tags,
+  req.params.id,
+]
 );
 
     if (images.length > 0) {

@@ -3,6 +3,7 @@ import SeoSettingsForm from "@/src/components/admin/SeoSettingsForm";
 import HeroSettingsForm from "@/src/components/admin/HeroSettingsForm";
 import BenefitSettingsForm from "@/src/components/admin/BenefitSettingsForm";
 import AboutSettingsForm from "@/src/components/admin/AboutSettingsForm";
+import FAQSettingsForm from "@/src/components/admin/FAQSettingsForm";
 export default function AdminSiteInfoPage() {
   return (
     <div className="space-y-8">
@@ -19,6 +20,7 @@ export default function AdminSiteInfoPage() {
       <HeroSettingsForm />
       <BenefitSettingsForm/>
       <AboutSettingsForm/>
+      <FAQSettingsForm />
     </div>
   );
 }

@@ -8,7 +8,7 @@ import type { SiteSettings } from "@/src/types/site";
 export default function LogoSettingsForm() {
   const [logoUrl, setLogoUrl] = useState("/logo.png");
   const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [phone, setPhone] = useState("09638-441144");
+  const [phone, setPhone] = useState("01814-445932");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"success" | "error" | "">("");
@@ -25,7 +25,7 @@ export default function LogoSettingsForm() {
 
         if (active && data.settings.logo_url) {
           setLogoUrl(data.settings.logo_url);
-          setPhone(data.settings.phone || "09638-441144");
+          setPhone(data.settings.phone || "01814-445932");
         }
       } catch {
         if (active) {
@@ -134,7 +134,9 @@ export default function LogoSettingsForm() {
         className="max-w-2xl space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
       >
         <div>
-          <h2 className="text-xl font-bold text-gray-900">Website Information</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            Website Information
+          </h2>
           <p className="mt-2 text-sm text-gray-600">
             Manage the logo and phone number shown on the frontend header.
           </p>
@@ -177,7 +179,7 @@ export default function LogoSettingsForm() {
             value={phone}
             onChange={(event) => setPhone(event.target.value)}
             required
-            placeholder="09638-441144"
+            placeholder="01814-445932"
             className="w-full rounded border border-gray-300 p-3 outline-none focus:border-[var(--primary)]"
           />
           <p className="mt-2 text-sm text-gray-500">

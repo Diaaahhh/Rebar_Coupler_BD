@@ -16,6 +16,7 @@ type EditProductPageProps = {
 const emptyEditorValue = "<p></p>";
 
 export default function EditProductPage({ params }: EditProductPageProps) {
+  const [installingTeam, setInstallingTeam] = useState("");
   const router = useRouter();
   const [productId, setProductId] = useState("");
   const [product, setProduct] = useState<Product | null>(null);
@@ -66,6 +67,7 @@ setQualityTest(data.product.quality_test || "");
 setPricingSystem(data.product.pricing_system || "");
 setSampleTestSystem(data.product.sample_test_system || "");
 setThreadingForging(data.product.threading_forging || "");
+setInstallingTeam(data.product.installing_team || "");
         }
       } catch {
         if (active) {
@@ -105,6 +107,7 @@ formData.append("qualityTest", qualityTest);
 formData.append("pricingSystem", pricingSystem);
 formData.append("sampleTestSystem", sampleTestSystem);
 formData.append("threadingForging", threadingForging);
+formData.append("installingTeam", installingTeam);
     images.forEach((image) => formData.append("images", image));
 
     try {
@@ -306,6 +309,17 @@ formData.append("threadingForging", threadingForging);
       className="w-full rounded border p-3"
     />
   </div>
+
+  <div>
+  <label>Installation Team</label>
+  <textarea
+    rows={3}
+    value={installingTeam}
+    onChange={(e) => setInstallingTeam(e.target.value)}
+    className="w-full rounded border p-3"
+    placeholder="Enter installation team information..."
+  />
+</div>
 </div>
 
           <RichTextEditor

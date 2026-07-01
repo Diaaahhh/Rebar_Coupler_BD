@@ -9,6 +9,7 @@ import { API_BASE_URL } from "@/src/constants/api";
 const emptyEditorValue = "<p></p>";
 
 export default function NewProductPage() {
+  const [installingTeam, setInstallingTeam] = useState("");
   const router = useRouter();
   const [name, setName] = useState("");
   const [queryPhone, setQueryPhone] = useState("");
@@ -35,6 +36,7 @@ const [customSizes, setCustomSizes] = useState("");  const [qualityTest, setQual
     setQueryPhone("");
     setDetailsHtml(emptyEditorValue);
     setShortDescriptionHtml(emptyEditorValue);
+    setInstallingTeam("");
     setImages([]);
     setEditorKey((key) => key + 1);
   };
@@ -70,6 +72,7 @@ formData.append("qualityTest", qualityTest);
 formData.append("pricingSystem", pricingSystem);
 formData.append("sampleTestSystem", sampleTestSystem);
 formData.append("threadingForging", threadingForging);
+formData.append("installingTeam", installingTeam);
     formData.append("queryPhone", queryPhone);
     formData.append("detailsHtml", detailsHtml);
     formData.append("shortDescriptionHtml", shortDescriptionHtml);
@@ -295,6 +298,17 @@ formData.append("threadingForging", threadingForging);
               className="w-full rounded border p-3"
             />
           </div>
+
+          <div>
+  <label>Installation Team</label>
+  <textarea
+    rows={3}
+    value={installingTeam}
+    onChange={(e) => setInstallingTeam(e.target.value)}
+    className="w-full rounded border p-3"
+    placeholder="Enter installation team information..."
+  />
+</div>
         </div>
 
         <RichTextEditor
