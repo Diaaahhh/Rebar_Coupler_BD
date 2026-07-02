@@ -5,7 +5,7 @@ import "./globals.css";
 import { getSiteSettings } from "@/src/lib/siteSettings";
 import { siteConfig } from "@/src/lib/siteConfig";
 import SiteChrome from "@/src/components/layout/SiteChrome";
-
+import FloatingWhatsapp from "../components/common/FloatingWhatsapp";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -78,7 +78,7 @@ export default function RootLayout({
         <meta property="og:type" content="website" />
       </head>
       <body className="min-h-screen flex flex-col">
-        <SiteChrome>{children}</SiteChrome>
+        <SiteChrome>{children} <FloatingWhatsapp/></SiteChrome>
       </body>
     </html>
   );

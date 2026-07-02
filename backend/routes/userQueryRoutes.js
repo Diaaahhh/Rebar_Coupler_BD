@@ -53,6 +53,7 @@ router.post("/send-otp", async (req, res) => {
       fullName,
       email,
       phone,
+      captchaToken,
     } = req.body || {};
 
     /*
@@ -78,12 +79,66 @@ router.post("/send-otp", async (req, res) => {
         message: "Email is required",
       });
     }
+const emailRegex =
+  /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
+if (!emailRegex.test(email.trim())) {
+  return res.status(400).json({
+    message: "Please enter a valid email address.",
+  });
+}
     if (!phone?.trim()) {
       return res.status(400).json({
         message: "Phone number is required",
       });
     }
+    const phoneRegex = /^01[3-9]\d{8}$/;
+
+if (!phoneRegex.test(phone.trim())) {
+  return res.status(400).json({
+    message:
+      "Please enter a valid Bangladeshi phone number.",
+  });
+}
+
+/*
+|--------------------------------------------------------------------------
+| Google reCAPTCHA Validation
+|--------------------------------------------------------------------------
+*/
+
+if (!captchaToken) {
+  return res.status(400).json({
+    message: "Please complete the reCAPTCHA.",
+  });
+}
+
+let verifyResponse;
+
+try {
+  verifyResponse = await axios.post(
+    "https://www.google.com/recaptcha/api/siteverify",
+    null,
+    {
+      params: {
+        secret: process.env.RECAPTCHA_SECRET_KEY,
+        response: captchaToken,
+      },
+    }
+  );
+} catch (error) {
+  console.error("reCAPTCHA Error:", error?.response?.data || error.message);
+
+  return res.status(500).json({
+    message: "Unable to verify reCAPTCHA.",
+  });
+}
+
+if (!verifyResponse.data.success) {
+  return res.status(400).json({
+    message: "Captcha verification failed.",
+  });
+}
 
     /*
     |--------------------------------------------------------------------------

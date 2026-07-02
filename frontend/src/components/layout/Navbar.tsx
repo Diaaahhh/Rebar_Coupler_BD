@@ -20,14 +20,20 @@ export default function Navbar() {
 
     const loadSettings = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/site/settings`, {
+        const response = await fetch(`${API_BASE_URL}/api/contact/settings`, {
           cache: "no-store",
         });
 
         if (!response.ok) return;
 
-        const data = (await response.json()) as { settings: SiteSettings };
-
+const data = (await response.json()) as {
+  settings: {
+    phone: string;
+    whatsapp_number: string;
+    facebook_url: string;
+    youtube_url: string;
+  };
+};
         if (active && data.settings.phone) {
           setPhone(data.settings.phone);
         }

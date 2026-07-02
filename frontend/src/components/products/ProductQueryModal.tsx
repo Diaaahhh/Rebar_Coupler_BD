@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { API_BASE_URL } from "@/src/constants/api";
+import ReCAPTCHA from "react-google-recaptcha";
 
 type Props = {
   productId: number;
@@ -13,7 +14,9 @@ export default function ProductQueryModal({
   productName,
 }: Props) {
   const [open, setOpen] = useState(false);
-
+const [captchaToken, setCaptchaToken] =
+  useState("");
+  const captchaRef = useRef<ReCAPTCHA>(null);
   const [step, setStep] = useState<
     "form" | "otp" | "success"
   >("form");
@@ -67,7 +70,18 @@ export default function ProductQueryModal({
   };
 
   async function sendOtp() {
+    const emailRegex =
+  /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+if (!emailRegex.test(email.trim())) {
+  alert("Please enter a valid email address.");
+  return;
+}
     try {
+      if (!captchaToken) {
+  alert("Please complete the reCAPTCHA.");
+  return;
+}
       setLoading(true);
 
       const response = await fetch(
@@ -82,6 +96,7 @@ export default function ProductQueryModal({
             fullName,
             email,
             phone,
+            captchaToken
           }),
         }
       );
@@ -98,6 +113,8 @@ export default function ProductQueryModal({
       setSeconds(180);
 
       setStep("otp");
+      captchaRef.current?.reset();
+setCaptchaToken("");
     } catch (error) {
       console.error(error);
 
@@ -210,14 +227,26 @@ export default function ProductQueryModal({
                 />
 
                 <input
-                  type="text"
-                  placeholder="Phone Number"
-                  value={phone}
-                  onChange={(e) =>
-                    setPhone(e.target.value)
-                  }
-                  className="w-full rounded border p-3"
-                />
+  type="tel"
+  placeholder="018XXXXXXXX"
+  value={phone}
+  maxLength={11}
+  inputMode="numeric"
+  onChange={(e) =>
+    setPhone(e.target.value.replace(/\D/g, ""))
+  }
+  className="w-full rounded border p-3"
+/>
+
+<ReCAPTCHA
+  ref={captchaRef}
+  sitekey={
+    process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!
+  }
+  onChange={(token) =>
+    setCaptchaToken(token || "")
+  }
+/>
 
                 <button
                   disabled={loading}

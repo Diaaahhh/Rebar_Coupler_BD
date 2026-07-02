@@ -44,7 +44,7 @@ export default function LoginPage() {
         return;
       }
 
-      alert("Welcome");
+      // alert("Welcome");
 
       window.location.href = "/admin/dashboard";
     } catch (error) {
